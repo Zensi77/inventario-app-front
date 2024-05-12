@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { Producto } from '../producto';
 import { ProductoService } from '../producto.service';
 import { ActivatedRoute } from '@angular/router';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-producto',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './producto.component.html',
 })
 export class ProductoComponent implements OnInit{

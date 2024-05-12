@@ -13,7 +13,7 @@ import { HttpClientModule } from '@angular/common/http';
     RouterOutlet,
     ProductoComponent,
     HttpClientModule,
-    RouterLink,
+    RouterLink
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',

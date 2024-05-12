@@ -1,1 +1,29 @@
-<p>registrar-producto works!</p>
+<div class="container" (ngSubmit)="onSubmit()">
+    <h2 style="font-family: Arial, sans-serif;">Registro de Producto</h2>
+    <form>
+        <div class="mb-3">
+            <label for="nombre" class="form-label" style="font-family: Arial, sans-serif;">Nombre</label>
+            <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre del producto" [(ngModel)]="producto.nombre">
+        </div>
+        <div class="mb-3">
+            <label for="descripcion" class="form-label" style="font-family: Arial, sans-serif;">Descripción</label>
+            <textarea class="form-control" id="descripcion" rows="3" name="descripcion" placeholder="Descripción del producto" [(ngModel)]="producto.descripcion"></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="precio" class="form-label" style="font-family: Arial, sans-serif;">Precio</label>
+            <input type="number" class="form-control" id="precio" name="precio" placeholder="Precio del producto" [(ngModel)]="producto.precio">
+        </div>
+        <div class="mb-3">
+            <label for="existencia" class="form-label" style="font-family: Arial, sans-serif;">Existencia</label>
+            <input type="number" class="form-control" id="existencia" name="existencia" placeholder="Existencia del producto" [(ngModel)]="producto.existencia">
+        </div>
+        <div class="mb-3">
+            <label for="fabricante" class="form-label" style="font-family: Arial, sans-serif;">Fabricante</label>
+            <select class="form-select" id="fabricante" name="fabricante" [(ngModel)]="producto.fabricante">
+                <option selected>Seleccione el fabricante</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary" style="font-family: Arial, sans-serif;">Registrar</button>
+        <button type="reset" class="btn btn-danger">Borrar datos</button>
+    </form>
+</div>

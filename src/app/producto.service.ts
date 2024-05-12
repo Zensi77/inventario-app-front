@@ -15,4 +15,8 @@ export class ProductoService {
     obtenerProductos(): Observable<Producto[]> { // Método para obtener productos
     return this.clientHttp.get<Producto[]>(this.URL); // Hace una petición GET a la URL
   }
+
+  agregarProducto(producto: Producto): Observable<Producto> { // Método para agregar un producto
+    return this.clientHttp.post<Producto>(this.URL, producto); // Hace una petición POST a la URL
+  }
 }
