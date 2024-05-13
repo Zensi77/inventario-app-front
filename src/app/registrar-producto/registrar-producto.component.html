@@ -1,6 +1,7 @@
-<div class="container" (ngSubmit)="onSubmit()">
+<!--Usamos el concepto "Two-Way Data Binding" (Vinculación de datos bidireccional), el cual sincroniza el modelo y la vista, usando el ngModel-->
+<div class="container">
     <h2 style="font-family: Arial, sans-serif;">Registro de Producto</h2>
-    <form>
+    <form (ngSubmit)="onSubmit()"> <!-- Uso la directiva ngSubmit para llamar al método onSubmit del componente cuando se envíe el formulario -->
         <div class="mb-3">
             <label for="nombre" class="form-label" style="font-family: Arial, sans-serif;">Nombre</label>
             <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre del producto" [(ngModel)]="producto.nombre">
@@ -20,10 +21,11 @@
         <div class="mb-3">
             <label for="fabricante" class="form-label" style="font-family: Arial, sans-serif;">Fabricante</label>
             <select class="form-select" id="fabricante" name="fabricante" [(ngModel)]="producto.fabricante">
-                <option selected>Seleccione el fabricante</option>
+                <ng-container *ngFor="let fabricante of fabricantes">
+                    <option [ngValue]="fabricante">{{fabricante.nombre}}</option> <!-- Uso la directiva ngValue para asignar el objeto fabricante a la propiedad fabricante del producto -->
+                </ng-container>
             </select>
         </div>
-        <button type="submit" class="btn btn-primary" style="font-family: Arial, sans-serif;">Registrar</button>
-        <button type="reset" class="btn btn-danger">Borrar datos</button>
+        <button class="btn btn-primary" style="font-family: Arial, sans-serif;">Registrar</button> 
     </form>
 </div>

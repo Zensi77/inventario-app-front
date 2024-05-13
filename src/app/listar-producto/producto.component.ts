@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Producto } from '../producto';
+import { Producto } from '../Models';
 import { ProductoService } from '../producto.service';
 import { ActivatedRoute } from '@angular/router';
 import { RouterModule } from '@angular/router';
@@ -11,10 +11,13 @@ import { RouterModule } from '@angular/router';
   imports: [CommonModule, RouterModule],
   templateUrl: './producto.component.html',
 })
-export class ProductoComponent implements OnInit{
-  productos: Producto[];
+export class ProductoComponent implements OnInit {
+  productos: Producto[] = [];
 
-  constructor(private productoServicio: ProductoService, private route: ActivatedRoute) { }
+  constructor(
+    private productoServicio: ProductoService,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit() {
     // Esto lo que hace es que cuando se cambie de ruta, se vuelva a cargar la lista de productos
@@ -22,12 +25,13 @@ export class ProductoComponent implements OnInit{
       this.obtenerProductos();
     });
   }
-  
 
   // metodo para obtener productos
   // subscribe: se suscribe a los cambios de la petición
-  // Expresion lambda (productos => this.productos = productos): asigna el resultado de la petición 
-  obtenerProductos() { 
-    this.productoServicio.obtenerProductos().subscribe(productos => this.productos = productos);
+  // Expresion lambda (productos => this.productos = productos): asigna el resultado de la petición
+  obtenerProductos() {
+    this.productoServicio
+      .obtenerProductos()
+      .subscribe((productos) => (this.productos = productos));
   }
 }
