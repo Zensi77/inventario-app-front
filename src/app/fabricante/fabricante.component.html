@@ -1,1 +1,42 @@
-<p>fabricante works!</p>
+<ng-container *ngIf="fabricantes.length === 0; else siFabricantes">
+    <div class="container" #noFabricantes>
+        <h4 class="alert">No hay fabricantes registrados</h4>
+    </div>
+</ng-container>
+
+<ng-template #siFabricantes>
+    <div class="container">
+        <ul class="nav justify-content-center">
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" routerLink="/registrar-fabricante">Agregar Producto</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Generar PDF</a>
+            </li>
+        </ul>
+
+        <h3>Lista de fabricantes</h3>
+
+        <table class="table table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>Nombre</th>
+                    <th>Dirección</th>
+                    <th>Telefono</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let fabricante of fabricantes">
+                    <td>{{ fabricante.nombre }}</td>
+                    <td>{{ fabricante.direccion }}</td>
+                    <td>{{ fabricante.telefono }}</td>
+                    <td>
+                        <button class="btn btn-primary">Editar</button>
+                        <button class="btn btn-danger">Eliminar</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</ng-template>

@@ -12,7 +12,7 @@ export class ProductoService {
 
   constructor(private clientHttp: HttpClient) { }
 
-    obtenerProductos(): Observable<Producto[]> { // Método para obtener productos
+  obtenerProductos(): Observable<Producto[]> { // Método para obtener productos
     return this.clientHttp.get<Producto[]>(this.URL); // Hace una petición GET a la URL
   }
 

@@ -8,6 +8,7 @@ export const routes: Routes = [
   { path: 'productos', component: ProductoComponent }, // Ruta para el componente Producto
   { path: '', redirectTo: 'productos', pathMatch: 'full' }, // Ruta sin especificar
   { path: 'fabricantes', component: FabricanteComponent }, // Ruta para el componente Proovedores
-  {path: 'registrar-producto', component: RegistrarProductoComponent},
+  { path: 'registrar-producto', component: RegistrarProductoComponent },
+  { path: 'registrar-producto', component: RegistrarProductoComponent},
   { path: '**', component: NotFoundComponent }, // Ruta no encontrada (404), siempre debe ir al final
 ];

@@ -16,7 +16,7 @@ export class RegistrarProductoComponent {
     let fabricante = document.getElementById('fabricante');
     let choise = document.getElementById('fabricante');
 
-    let fabricantes = 
+    
 
 
   }
