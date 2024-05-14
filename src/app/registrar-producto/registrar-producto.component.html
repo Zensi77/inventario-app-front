@@ -1,31 +1,47 @@
 <!--Usamos el concepto "Two-Way Data Binding" (Vinculación de datos bidireccional), el cual sincroniza el modelo y la vista, usando el ngModel-->
 <div class="container">
     <h2 style="font-family: Arial, sans-serif;">Registro de Producto</h2>
-    <form (ngSubmit)="onSubmit()"> <!-- Uso la directiva ngSubmit para llamar al método onSubmit del componente cuando se envíe el formulario -->
+    <form (ngSubmit)="onSubmit()">
         <div class="mb-3">
-            <label for="nombre" class="form-label" style="font-family: Arial, sans-serif;">Nombre</label>
-            <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre del producto" [(ngModel)]="producto.nombre">
+            <label for="codigo" class="form-label">Código</label>
+            <input type="text" class="form-control" id="codigo" name="codigo" placeholder="Código del producto"
+                [(ngModel)]="producto.id.idProducto">
         </div>
         <div class="mb-3">
-            <label for="descripcion" class="form-label" style="font-family: Arial, sans-serif;">Descripción</label>
-            <textarea class="form-control" id="descripcion" rows="3" name="descripcion" placeholder="Descripción del producto" [(ngModel)]="producto.descripcion"></textarea>
+            <label for="nombre" class="form-label">Nombre</label>
+            <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre del producto"
+                [(ngModel)]="producto.nombre">
         </div>
         <div class="mb-3">
-            <label for="precio" class="form-label" style="font-family: Arial, sans-serif;">Precio</label>
-            <input type="number" class="form-control" id="precio" name="precio" placeholder="Precio del producto" [(ngModel)]="producto.precio">
+            <label for="descripcion" class="form-label">Descripción</label>
+            <textarea class="form-control" id="descripcion" rows="3" name="descripcion"
+                placeholder="Descripción del producto" [(ngModel)]="producto.descripcion"></textarea>
         </div>
         <div class="mb-3">
-            <label for="existencia" class="form-label" style="font-family: Arial, sans-serif;">Existencia</label>
-            <input type="number" class="form-control" id="existencia" name="existencia" placeholder="Existencia del producto" [(ngModel)]="producto.existencia">
+            <label for="precio" class="form-label">Precio</label>
+            <input type="number" class="form-control" id="precio" name="precio" placeholder="Precio del producto"
+                [(ngModel)]="producto.precio">
         </div>
         <div class="mb-3">
-            <label for="fabricante" class="form-label" style="font-family: Arial, sans-serif;">Fabricante</label>
-            <select class="form-select" id="fabricante" name="fabricante" [(ngModel)]="producto.fabricante">
-                <ng-container *ngFor="let fabricante of fabricantes">
-                    <option [ngValue]="fabricante">{{fabricante.nombre}}</option> <!-- Uso la directiva ngValue para asignar el objeto fabricante a la propiedad fabricante del producto -->
-                </ng-container>
+            <label for="existencia" class="form-label">Existencia</label>
+            <input type="number" class="form-control" id="existencia" name="existencia"
+                placeholder="Existencia del producto" [(ngModel)]="producto.existencia">
+        </div>
+        <div class="mb-3">
+            <label for="fabricante" class="form-label">Fabricante</label>
+            <select class="form-select" id="fabricante" name="fabricante"
+                [(ngModel)]="producto.fabricante.id_fabricante">
+                <option *ngFor="let fabricante of fabricantes" [ngValue]="fabricante.id_fabricante">
+                    {{fabricante.nombre}}</option>
             </select>
         </div>
-        <button class="btn btn-primary" style="font-family: Arial, sans-serif;">Registrar</button> 
+        <div class="mb-3">
+            <label for="almacen" class="form-label">Almacén</label>
+            <select class="form-select" id="almacen" name="almacen" [(ngModel)]="producto.id.id_almacen">
+                <option *ngFor="let almacen of almacenes" [ngValue]="almacen.id_almacen">{{almacen.nombre}}</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Registrar</button>
+        <button type="reset" class="btn btn-warning">Borrar</button>
     </form>
 </div>

@@ -1,4 +1,4 @@
-a {
+li a {
     font-size: 20px;
     margin-left: 20px;
 }
@@ -10,6 +10,6 @@ img {
 a:hover {
     color: #ff0000;
     text-decoration: none;
-    transform: scale(1.1);
+    transform: scale(1.05);
     transition: transform 0.5s;
 }
