@@ -1,3 +1,13 @@
+<div class="container">
+<ul class="nav justify-content-center">
+    <li class="nav-item">
+        <a class="nav-link active" aria-current="page" routerLink="/registrar-producto">Agregar Producto</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#">Generar PDF</a>
+    </li>
+</ul>
+</div>
 <ng-container *ngIf="productos.length === 0; else siProductos">
     <div class="container" #noProductos>
         <h4 class="alert">No hay productos registrados</h4>
@@ -5,16 +15,6 @@
 </ng-container>
 
 <ng-template #siProductos>
-    <div class="container">
-    <ul class="nav justify-content-center">
-        <li class="nav-item">
-            <a class="nav-link active" aria-current="page" routerLink="/registrar-producto">Agregar Producto</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">Generar PDF</a>
-        </li>
-    </ul>
-    </div>
     
     <div class="container">
         <h3 style="text-align: center;">Lista de productos</h3>
@@ -37,8 +37,8 @@
                     <td>{{producto.precio}}</td>
                     <td>{{producto.fabricante.nombre}}</td>
                     <td>
-                        <button type="button" class="btn btn-primary">Editar</button>
-                        <button type="button" class="btn btn-danger">Eliminar</button>
+                        <button type="button" class="btn btn-primary me-1" (click)="editarProducto(producto.id_producto)">Editar</button>
+                        <button type="button" class="btn btn-danger" (click)="eliminarProducto(producto.id_producto)">Eliminar</button>
                     </td>
                 </tr>
             </tbody>

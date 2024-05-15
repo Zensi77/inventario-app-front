@@ -3,14 +3,9 @@
     <h2 style="font-family: Arial, sans-serif;">Registro de Producto</h2>
     <form (ngSubmit)="onSubmit()">
         <div class="mb-3">
-            <label for="codigo" class="form-label">Código</label>
-            <input type="text" class="form-control" id="codigo" name="codigo" placeholder="Código del producto"
-                [(ngModel)]="producto.id_producto">
-        </div>
-        <div class="mb-3">
             <label for="nombre" class="form-label">Nombre</label>
             <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre del producto"
-                [(ngModel)]="producto.nombre">
+                [(ngModel)]="producto.nombre" required>
         </div>
         <div class="mb-3">
             <label for="descripcion" class="form-label">Descripción</label>
@@ -20,17 +15,18 @@
         <div class="mb-3">
             <label for="precio" class="form-label">Precio</label>
             <input type="number" class="form-control" id="precio" name="precio" placeholder="Precio del producto"
-                [(ngModel)]="producto.precio">
+                [(ngModel)]="producto.precio" required>
         </div>
         <div class="mb-3">
             <label for="fabricante" class="form-label">Fabricante</label>
-            <select class="form-select" id="fabricante" name="fabricante"
-                [(ngModel)]="producto.fabricante">
-                <option *ngFor="let fabricante of fabricantes" [ngValue]="producto.fabricante">
-                    {{fabricante.nombre}}</option>
+            <input type="text" [(ngModel)]="terminoBusqueda" (ngModelChange)="filtrarFabricantes()" placeholder="Buscar fabricante">
+            <select class="form-select" id="fabricante" name="fabricante" [(ngModel)]="producto.fabricante">
+                <option *ngFor="let fabricante of filtrarFabricantes()" [ngValue]="fabricante" required>
+                    {{ fabricante.nombre }}
+                </option>
             </select>
         </div>
-        <button type="submit" class="btn btn-primary">Registrar</button>
+        <button type="submit" class="btn btn-primary me-5">Registrar</button>
         <button type="reset" class="btn btn-warning">Borrar</button>
     </form>
 </div>

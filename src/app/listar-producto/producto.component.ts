@@ -4,6 +4,7 @@ import { Producto } from '../Models';
 import { ProductoService } from '../producto.service';
 import { ActivatedRoute } from '@angular/router';
 import { RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-producto',
@@ -12,11 +13,12 @@ import { RouterModule } from '@angular/router';
   templateUrl: './producto.component.html',
 })
 export class ProductoComponent implements OnInit {
-  productos: Producto[] = [];
+  productos: Producto[];
 
   constructor(
     private productoServicio: ProductoService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -33,5 +35,20 @@ export class ProductoComponent implements OnInit {
     this.productoServicio
       .obtenerProductos()
       .subscribe((productos) => (this.productos = productos));
+  }
+
+  // metodo para eliminar un producto
+  // Se llama al metodo eliminarProducto del servicio de productos pasandole el id del producto
+  eliminarProducto(id: number) {
+    this.productoServicio.eliminarProducto(id).subscribe(() => {
+      // Se vuelve a obtener la lista de productos
+      this.obtenerProductos();
+    });
+  }
+
+  // metodo para actualizar un producto
+  editarProducto(id: number) {
+    // Se redirige a la ruta para editar un producto
+    this.router.navigate(['/editar-producto', id]);
   }
 }

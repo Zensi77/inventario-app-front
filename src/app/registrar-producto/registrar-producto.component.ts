@@ -17,7 +17,8 @@ import { ToastrModule } from 'ngx-toastr';
 })
 export class RegistrarProductoComponent {
   fabricantes: Fabricante[]; // Se crea un array de fabricantes
-  producto: Producto= new Producto();
+  producto: Producto = new Producto();
+  terminoBusqueda: string = '';
 
   constructor(
     private productoService: ProductoService,
@@ -39,10 +40,23 @@ export class RegistrarProductoComponent {
       .agregarProducto(this.producto)
       .subscribe((producto) => {
         this.toastr.success(
-          'Producto registrado con exito',
-          'Registro exitoso'
+          'Producto registrado exitosamente',
+          'Producto registrado'
         );
-        this.enrutador.navigate(['/productos']);
       });
+  }
+
+  filtrarFabricantes(): Fabricante[] {
+    if (!this.terminoBusqueda) {
+      // Si el término de búsqueda está vacío, retornar todos los fabricantes
+      return this.fabricantes;
+    } else {
+      // Filtrar los fabricantes cuyo nombre coincida con el término de búsqueda
+      return this.fabricantes.filter((fabricante) =>
+        fabricante.nombre
+          .toLowerCase()
+          .includes(this.terminoBusqueda.toLowerCase())
+      );
+    }
   }
 }

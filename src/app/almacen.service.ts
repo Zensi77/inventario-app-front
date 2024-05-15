@@ -18,4 +18,8 @@ export class AlmacenService {
   registrarAlmacen(almacen: Almacen): Observable<Almacen> {
     return this.HTTPcliente.post<Almacen>(this.URL, almacen)
   }
+
+  borrarAlmacen(id: number): Observable<Almacen> {
+    return this.HTTPcliente.delete<Almacen>(`${this.URL}/${id}`);
+  }
 }
