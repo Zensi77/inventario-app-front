@@ -5,7 +5,7 @@
         <div class="mb-3">
             <label for="codigo" class="form-label">Código</label>
             <input type="text" class="form-control" id="codigo" name="codigo" placeholder="Código del producto"
-                [(ngModel)]="producto.id.idProducto">
+                [(ngModel)]="producto.id_producto">
         </div>
         <div class="mb-3">
             <label for="nombre" class="form-label">Nombre</label>
@@ -23,22 +23,11 @@
                 [(ngModel)]="producto.precio">
         </div>
         <div class="mb-3">
-            <label for="existencia" class="form-label">Existencia</label>
-            <input type="number" class="form-control" id="existencia" name="existencia"
-                placeholder="Existencia del producto" [(ngModel)]="producto.existencia">
-        </div>
-        <div class="mb-3">
             <label for="fabricante" class="form-label">Fabricante</label>
             <select class="form-select" id="fabricante" name="fabricante"
-                [(ngModel)]="producto.fabricante.id_fabricante">
-                <option *ngFor="let fabricante of fabricantes" [ngValue]="fabricante.id_fabricante">
+                [(ngModel)]="producto.fabricante">
+                <option *ngFor="let fabricante of fabricantes" [ngValue]="producto.fabricante">
                     {{fabricante.nombre}}</option>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label for="almacen" class="form-label">Almacén</label>
-            <select class="form-select" id="almacen" name="almacen" [(ngModel)]="producto.id.id_almacen">
-                <option *ngFor="let almacen of almacenes" [ngValue]="almacen.id_almacen">{{almacen.nombre}}</option>
             </select>
         </div>
         <button type="submit" class="btn btn-primary">Registrar</button>

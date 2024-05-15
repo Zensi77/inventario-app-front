@@ -25,21 +25,17 @@
                     <th scope="col">Nombre</th>
                     <th scope="col">Descripcion</th>
                     <th scope="col">Precio</th>
-                    <th scope="col">Stock</th>
                     <th scope="col">Fabricante</th>
-                    <th scope="col">Almacen</th>
                     <th scope="col">Acciones</th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let producto of productos"><!-- Uso la directiva ngFor para iterar la tabla -->
-                    <th scope="row">{{producto.id.idProducto}}</th>
+                    <th scope="row">{{producto.id_producto}}</th>
                     <td>{{producto.nombre}}</td>
                     <td>{{producto.descripcion}}</td>
                     <td>{{producto.precio}}</td>
-                    <td>{{producto.existencia}}</td>
                     <td>{{producto.fabricante.nombre}}</td>
-                    <td>{{producto.almacen.nombre}}</td>
                     <td>
                         <button type="button" class="btn btn-primary">Editar</button>
                         <button type="button" class="btn btn-danger">Eliminar</button>

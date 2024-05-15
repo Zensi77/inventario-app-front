@@ -1,14 +1,5 @@
 export class Producto {
-  id: {
-    idProducto: string;
-    id_almacen: number;
-  };
-  almacen: {
-    id_almacen: number;
-    nombre: string;
-    direccion: string;
-    telefono: string;
-  };
+  id_producto: number;
   nombre: string;
   descripcion: string;
   precio: number;
