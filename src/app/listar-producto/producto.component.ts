@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Producto } from '../Models';
 import { ProductoService } from '../producto.service';
@@ -6,15 +6,31 @@ import { ActivatedRoute } from '@angular/router';
 import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
 
+// Imports de Angular Material para la tabla
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSort, MatSortModule } from '@angular/material/sort';
+
+
 @Component({
   selector: 'app-producto',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, MatPaginatorModule, MatInputModule, MatButtonModule, MatTableModule, MatSortModule],
   templateUrl: './producto.component.html',
 })
-export class ProductoComponent implements OnInit {
-  productos: Producto[];
+export class ProductoComponent implements OnInit, AfterViewInit {
+  productos: Producto[]=[];
+  productosFiltrados: Producto[];
   selectedProducto: Producto | null = null;
+
+  displayedColumns: string[] = ['nombre', 'descripcion', 'precio', 'acciones'];
+  dataSource = new MatTableDataSource<Producto>([]);
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
   constructor(
     private productoServicio: ProductoService,
@@ -29,13 +45,23 @@ export class ProductoComponent implements OnInit {
     });
   }
 
+  ngAfterViewInit(): void {
+      setTimeout(() => { // Se espera un tiempo para que se cargue la tabla
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      }, 30);
+  }
+
   // metodo para obtener productos
   // subscribe: se suscribe a los cambios de la petición
   // Expresion lambda (productos => this.productos = productos): asigna el resultado de la petición
   obtenerProductos() {
     this.productoServicio
       .obtenerProductos()
-      .subscribe((productos) => (this.productos = productos));
+      .subscribe((productos) => {
+        this.dataSource.data = productos; // Se asignan los productos a la tabla
+        this.productos = productos;
+      });
   }
 
   openConfirmModal(producto: Producto) {
@@ -76,5 +102,13 @@ export class ProductoComponent implements OnInit {
   editarProducto(id: number) {
     // Se redirige a la ruta para editar un producto
     this.router.navigate(['/editar-producto', id]);
+  }
+
+  // metodo para filtrar productos
+  applyFilter(event: Event) {
+    // Se obtiene el valor del input
+    const filterValue = (event.target as HTMLInputElement).value;
+    // Se filtran los productos
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 }

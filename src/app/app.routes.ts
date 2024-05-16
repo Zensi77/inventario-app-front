@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { ProductoComponent } from './listar-producto/producto.component';
-import { FabricanteComponent } from './fabricante/fabricante.component';
+import { FabricanteComponent } from './listar-fabricante/fabricante.component';
 import { RegistrarProductoComponent } from './registrar-producto/registrar-producto.component';
 import { AlmacenesComponent } from './almacenes/almacenes.component';
 import { EditarComponent } from './editar-producto/editar-producto.component';
@@ -9,11 +9,11 @@ import { RegistrarFabricanteComponent } from './registrar-fabricante/registrar-f
 
 export const routes: Routes = [
   { path: 'productos', component: ProductoComponent }, // Ruta para el componente Producto
-  { path: 'registrar-producto', component: RegistrarProductoComponent },
+  { path: 'registrar-producto', component: RegistrarProductoComponent, },
   { path: 'editar-producto/:id', component: EditarComponent },
   { path: 'fabricantes', component: FabricanteComponent }, // Ruta para el componente Proovedores
   { path: 'editar-fabricante/:id', component: EditarFabricanteComponent },
   { path: 'registrar-fabricante', component: RegistrarFabricanteComponent},
-  { path: 'almacenes', component: AlmacenesComponent }, // Ruta para el componente Almacenes
+  { path: 'almacenes', component: AlmacenesComponent}, // Ruta para el componente Almacenes
   { path: '', redirectTo: 'productos', pathMatch: 'full' }, // Ruta sin especificar
 ];

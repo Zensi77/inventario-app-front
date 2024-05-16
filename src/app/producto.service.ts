@@ -34,3 +34,27 @@ export class ProductoService {
     return this.clientHttp.put<Producto>(`${this.URL}/${producto.id_producto}`, producto);
   }
 }
+
+export class PaginationService {
+  private pageSize = 10;
+  private currentPage = 0;
+
+  constructor() { }
+
+  getPageSize(): number {
+    return this.pageSize;
+  }
+
+  getCurrentPage(): number {
+    return this.currentPage;
+  }
+
+  setPageSize(size: number): void {
+    this.pageSize = size;
+  }
+
+  setCurrentPage(page: number): void {
+    this.currentPage = page;
+  }
+}
+

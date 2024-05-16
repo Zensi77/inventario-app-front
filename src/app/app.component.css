@@ -1,15 +1,49 @@
-li a {
-    font-size: 20px;
-    margin-left: 20px;
+/* Mejoras en el diseño del logo */
+.logo {
+    margin-left: 2%;
+    vertical-align: middle;
 }
 
-img {
-    margin-left: 0px;
+/* Estilos para los enlaces del menú */
+.nav-link {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #004085;
+    transition: color 0.3s ease, background-color 0.3s ease;
 }
 
-a:hover {
-    color: #ff0000;
-    text-decoration: none;
-    transform: scale(1.05);
-    transition: transform 0.5s;
+.nav-link:hover,
+.nav-link.active {
+    color: #fff;
+    background-color: #0056b3;
+    border-radius: 5px;
+    padding: 5px 10px;
+}
+
+/* Alinear íconos con el texto */
+.nav-link img {
+    vertical-align: middle;
+    margin-left: 5px;
+}
+
+/* Botón de la barra de navegación */
+.navbar-toggler {
+    border: none;
+    outline: none;
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(0, 0, 0, 0.5)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+/* Transiciones suaves */
+.navbar-toggler-icon,
+.nav-link,
+.navbar-brand {
+    transition: all 0.3s ease;
+}
+
+.container-fluid {
+    padding-left: 15px;
+    padding-right: 15px;
 }

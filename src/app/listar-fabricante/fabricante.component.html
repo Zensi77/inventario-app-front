@@ -1,0 +1,114 @@
+<!--
+Explicación de la Tabla y las Directivas Usadas:
+
+1. Directiva `mat-table`:
+   - `mat-table` es una directiva de Angular Material que proporciona una tabla estilizada y funcional.
+   - `[dataSource]="dataSource"` enlaza los datos a la tabla. `dataSource` es una instancia de `MatTableDataSource` que maneja los datos y la paginación.
+
+2. Directivas `matColumnDef`:
+   - `matColumnDef` define una columna en la tabla. Cada columna debe tener un identificador único.
+   - Dentro de `ng-container` se define el encabezado y la celda de la columna usando `mat-header-cell` y `mat-cell` respectivamente.
+   - `*matHeaderCellDef` y `*matCellDef` son plantillas estructurales que Angular utiliza para saber qué contenido mostrar en el encabezado y en las celdas.
+
+3. Directiva `mat-header-row` y `mat-row`:
+   - `mat-header-row` define la fila de encabezado de la tabla.
+   - `mat-row` define una fila de datos en la tabla.
+   - `*matHeaderRowDef="displayedColumns"` y `*matRowDef="let row; columns: displayedColumns;"` especifican las columnas que se deben mostrar en estas filas. `displayedColumns` es un array que contiene los identificadores de las columnas.
+
+4. Directiva `mat-paginator`:
+   - `mat-paginator` añade paginación a la tabla.
+   - `[pageSize]="10"` establece el tamaño de página inicial en 10 elementos.
+   - `[pageSizeOptions]="[10, 20, 50]"` proporciona opciones de tamaño de página que el usuario puede seleccionar.
+
+5. Filtro de Búsqueda:
+   - Un campo de entrada (`<input>`) con `(input)="applyFilter($event)"` para aplicar un filtro a los datos de la tabla en tiempo real.
+   - `applyFilter` es un método en el componente que filtra los datos de la tabla basándose en el valor introducido.
+
+6. Comportamiento del Modal de Confirmación:
+   - La funcionalidad del modal se maneja en el archivo TypeScript del componente.
+   - `openConfirmModal(fabricante: Fabricante)` abre el modal cuando se hace clic en el botón "Eliminar".
+   - `confirmDelete()` elimina el fabricante seleccionado después de la confirmación.
+   - `cancelDelete()` cancela la operación de eliminación.
+
+7. Enlaces de Navegación:
+   - `routerLink="/registrar-fabricante"` es una directiva de Angular Router que permite la navegación dentro de la aplicación sin recargar la página.
+
+-->
+
+<div class="container">
+    <ul class="nav justify-content-center">
+        <li class="nav-item">
+            <a class="nav-link active" aria-current="page" routerLink="/registrar-fabricante">Agregar Fabricante</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Generar PDF</a>
+        </li>
+    </ul>
+</div>
+
+<div class="container" *ngIf="dataSource.data.length === 0; else siFabricantes">
+    <h4 class="alert">No hay fabricantes registrados</h4>
+</div>
+
+<ng-template #siFabricantes>
+    <div class="container">
+        <h3 style="text-align: center;">Lista de fabricantes</h3>
+        <div class="form-group mb-3">
+            <input type="text" matInput placeholder="Buscar" (input)="applyFilter($event)" class="form-control">
+        </div>
+        <div class="table-responsive">
+            <table mat-table [dataSource]="dataSource" matSort
+                class="mat-elevation-z8 table table-borderless table-striped align-middle">
+                <ng-container matColumnDef="nombre">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
+                    <td mat-cell *matCellDef="let row">{{ row.nombre }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="direccion">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Dirección</th>
+                    <td mat-cell *matCellDef="let row">{{ row.direccion }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="telefono">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Teléfono</th>
+                    <td mat-cell *matCellDef="let row">{{ row.telefono }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="acciones">
+                    <th mat-header-cell *matHeaderCellDef>Acciones</th>
+                    <td mat-cell *matCellDef="let row">
+                        <button type="button" class="btn btn-primary me-2 mt-1"
+                            (click)="editarFabricante(row.id_fabricante)">Editar</button>
+                        <button type="button" class="btn btn-danger" (click)="openConfirmModal(row)">Eliminar</button>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+        </div>
+        <mat-paginator [pageSize]="10" [pageSizeOptions]="[10, 20, 50]"></mat-paginator>
+    </div>
+
+    <!-- Modal de Confirmación -->
+    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Borrado</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <strong>Se borran todos los productos que existen en este almacen</strong> <br>
+                    ¿Estás seguro de que deseas eliminar {{ selectedFabricante?.nombre }}?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                        (click)="cancelDelete()">Cancelar</button>
+                    <button type="button" class="btn btn-danger" (click)="confirmDelete()">Eliminar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

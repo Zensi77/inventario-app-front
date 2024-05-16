@@ -19,6 +19,7 @@ export class RegistrarProductoComponent {
   fabricantes: Fabricante[]; // Se crea un array de fabricantes
   producto: Producto = new Producto();
   terminoBusqueda: string = '';
+  fabricantesFiltrados: Fabricante[];
 
   constructor(
     private productoService: ProductoService,
@@ -31,7 +32,10 @@ export class RegistrarProductoComponent {
     // Se obtienen los fabricantes
     this.fabricanteService
       .obtenerFabricantes()
-      .subscribe((fabricantes) => (this.fabricantes = fabricantes));
+      .subscribe((fabricantes) => {
+        this.fabricantes = fabricantes
+        this.fabricantesFiltrados = fabricantes
+      });
   }
 
   // Metodo para registrar un producto
@@ -46,17 +50,13 @@ export class RegistrarProductoComponent {
       });
   }
 
-  filtrarFabricantes(): Fabricante[] {
-    if (!this.terminoBusqueda) {
-      // Si el término de búsqueda está vacío, retornar todos los fabricantes
-      return this.fabricantes;
-    } else {
-      // Filtrar los fabricantes cuyo nombre coincida con el término de búsqueda
-      return this.fabricantes.filter((fabricante) =>
-        fabricante.nombre
-          .toLowerCase()
-          .includes(this.terminoBusqueda.toLowerCase())
-      );
-    }
+  // Metodo para filtrar los fabricantes por nombre
+  // con ngModel de la vista se actualiza el terminoBusqueda en tiempo real y se llama a este metodo
+  filtrarFabricantes(): void {
+    const termino = this.terminoBusqueda.toLowerCase();
+
+    this.fabricantesFiltrados = this.fabricantes.filter((fabricante) =>
+      fabricante.nombre.toLowerCase().includes(termino)
+    );
   }
 }

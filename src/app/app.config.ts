@@ -6,7 +6,8 @@ import { HttpClient, provideHttpClient } from '@angular/common/http'; // Client 
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideToastr } from 'ngx-toastr';
 import { timeout } from 'rxjs';
-import { ToastrModule } from 'ngx-toastr';  // Servicio para mostrar notificaciones
+import { ToastrModule } from 'ngx-toastr';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';  // Servicio para mostrar notificaciones
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
@@ -14,6 +15,6 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(),
     provideAnimations(),
     provideToastr({ timeOut: 3000, preventDuplicates: true }), // Fix the syntax
-    HttpClient
+    HttpClient, provideAnimationsAsync()
   ]
 };

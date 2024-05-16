@@ -1,6 +1,6 @@
 <!--Usamos el concepto "Two-Way Data Binding" (Vinculación de datos bidireccional), el cual sincroniza el modelo y la vista, usando el ngModel-->
-<div class="container">
-    <h2 style="font-family: Arial, sans-serif;">Registro de Producto</h2>
+<div class="container mt-5">
+    <h2 class="text-center mb-4" style="font-family: Arial, sans-serif; color: #333;">Registro de Producto</h2>
     <form (ngSubmit)="onSubmit()">
         <div class="mb-3">
             <label for="nombre" class="form-label">Nombre</label>
@@ -19,14 +19,17 @@
         </div>
         <div class="mb-3">
             <label for="fabricante" class="form-label">Fabricante</label>
-            <input type="text" [(ngModel)]="terminoBusqueda" (ngModelChange)="filtrarFabricantes()" placeholder="Buscar fabricante">
-            <select class="form-select" id="fabricante" name="fabricante" [(ngModel)]="producto.fabricante">
-                <option *ngFor="let fabricante of filtrarFabricantes()" [ngValue]="fabricante" required>
+            <input type="text" class="form-control mb-2" name="terminoBusqueda" [(ngModel)]="terminoBusqueda"
+                (ngModelChange)="filtrarFabricantes()" placeholder="Buscar fabricante">
+            <select class="form-select" id="fabricante" name="fabricante" [(ngModel)]="producto.fabricante" required>
+                <option *ngFor="let fabricante of fabricantesFiltrados" [ngValue]="fabricante">
                     {{ fabricante.nombre }}
                 </option>
             </select>
         </div>
-        <button type="submit" class="btn btn-primary me-5">Registrar</button>
-        <button type="reset" class="btn btn-warning">Borrar</button>
+        <div class="d-flex justify-content-between">
+            <button type="submit" class="btn btn-primary w-45">Registrar</button>
+            <button type="reset" class="btn btn-warning w-45">Borrar</button>
+        </div>
     </form>
 </div>
