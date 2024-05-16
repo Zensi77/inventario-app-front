@@ -14,6 +14,7 @@ import { Router } from '@angular/router';
 })
 export class ProductoComponent implements OnInit {
   productos: Producto[];
+  selectedProducto: Producto | null = null;
 
   constructor(
     private productoServicio: ProductoService,
@@ -37,13 +38,38 @@ export class ProductoComponent implements OnInit {
       .subscribe((productos) => (this.productos = productos));
   }
 
-  // metodo para eliminar un producto
-  // Se llama al metodo eliminarProducto del servicio de productos pasandole el id del producto
-  eliminarProducto(id: number) {
-    this.productoServicio.eliminarProducto(id).subscribe(() => {
-      // Se vuelve a obtener la lista de productos
-      this.obtenerProductos();
-    });
+  openConfirmModal(producto: Producto) {
+    // Se asigna el producto seleccionado
+    this.selectedProducto = producto;
+    // Se obtiene el elemento modal
+    const modalElement = document.getElementById('confirmDeleteModal');
+    // Si existe el elemento modal
+    if (modalElement) {
+      // Se crea una nueva instancia de la clase Modal de Bootstrap
+      const modal = new (window as any).bootstrap.Modal(modalElement);
+      // Se muestra el modal
+      modal.show();
+    }
+  }
+
+  confirmDelete() {
+    // Si hay un producto seleccionado
+    if (this.selectedProducto) {
+      // Se llama al servicio para borrar el producto
+      this.productoServicio
+        .eliminarProducto(this.selectedProducto.id_producto)
+        .subscribe(() => {
+          // Se vuelve a cargar la lista de productos
+          this.obtenerProductos();
+          // Se quita la selección del producto
+          this.selectedProducto = null;
+        });
+    }
+  }
+
+  cancelDelete() {
+    // Se quita la selección del producto
+    this.selectedProducto = null;
   }
 
   // metodo para actualizar un producto

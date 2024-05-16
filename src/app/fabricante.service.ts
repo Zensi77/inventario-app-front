@@ -18,4 +18,12 @@ export class FabricanteService {
   registrarFabricante(fabricante: Fabricante): Observable<Fabricante> {
     return this.clienteHTTP.post<Fabricante>(this.URL, fabricante);
   }
+
+  editarFabricante(fabricante: Fabricante): Observable<Fabricante> {
+    return this.clienteHTTP.put<Fabricante>(this.URL, fabricante);
+  }
+
+  borrarFabricante(id: number): Observable<Fabricante> {
+    return this.clienteHTTP.delete<Fabricante>(this.URL + '/' + id);
+  }
 }

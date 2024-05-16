@@ -1,7 +1,7 @@
 <div class="container">
     <ul class="nav justify-content-center">
         <li class="nav-item">
-            <a class="nav-link active" aria-current="page" routerLink="/registrar-fabricante">Agregar Producto</a>
+            <a class="nav-link active" aria-current="page" routerLink="/registrar-fabricante">Agregar Fabricantes</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="#">Generar PDF</a>
@@ -18,7 +18,7 @@
 <ng-template #siFabricantes>
     <div class="container">
 
-        <h3>Lista de fabricantes</h3>
+        <h3 style="text-align: center;">Lista de fabricantes</h3>
 
         <table class="table table-striped">
             <thead class="table-dark">
@@ -31,15 +31,36 @@
             </thead>
             <tbody>
                 <tr *ngFor="let fabricante of fabricantes">
-                    <td>{{ fabricante.nombre }}</td>
-                    <td>{{ fabricante.direccion }}</td>
-                    <td>{{ fabricante.telefono }}</td>
+                    <td class="align-middle">{{ fabricante.nombre }}</td>
+                    <td class="align-middle">{{ fabricante.direccion }}</td>
+                    <td class="align-middle">{{ fabricante.telefono }}</td>
                     <td>
-                        <button class="btn btn-primary">Editar</button>
-                        <button class="btn btn-danger">Eliminar</button>
+                        <button class="btn btn-primary m-1" (click)="editarFabricante(fabricante.id_fabricante)">Editar</button>
+                        <button class="btn btn-danger m-1" (click)="openConfirmModal(fabricante)">Eliminar</button>
                     </td>
                 </tr>
             </tbody>
         </table>
+    </div>
+
+    <!-- Modal de Confirmación -->
+    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Borrado</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ¿Estás seguro de que deseas eliminar {{ selectedFabricante?.nombre }}?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                        (click)="cancelDelete()">Cancelar</button>
+                    <button type="button" class="btn btn-danger" (click)="confirmDelete()">Eliminar</button>
+                </div>
+            </div>
+        </div>
     </div>
 </ng-template>
