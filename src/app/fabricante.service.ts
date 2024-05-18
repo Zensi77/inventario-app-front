@@ -15,6 +15,10 @@ export class FabricanteService {
     return this.clienteHTTP.get<Fabricante[]>(this.URL);
   }
 
+  obtenerFabricante(id: number): Observable<Fabricante> {
+    return this.clienteHTTP.get<Fabricante>(this.URL + '/' + id);
+  }
+
   registrarFabricante(fabricante: Fabricante): Observable<Fabricante> {
     return this.clienteHTTP.post<Fabricante>(this.URL, fabricante);
   }

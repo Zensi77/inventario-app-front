@@ -48,6 +48,8 @@ export class RegistrarProductoComponent {
           'Producto registrado'
         );
       });
+    
+      this.enrutador.navigate(['/listar-producto']);
   }
 
   // Metodo para filtrar los fabricantes por nombre

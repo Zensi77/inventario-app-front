@@ -1,12 +1,12 @@
 <div class="container">
-<ul class="nav justify-content-center">
-    <li class="nav-item">
-        <a class="nav-link active" aria-current="page" routerLink="/registrar-producto">Agregar Producto</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="#">Generar PDF</a>
-    </li>
-</ul>
+    <ul class="nav justify-content-center">
+        <li class="nav-item">
+            <a class="nav-link active" aria-current="page" routerLink="/registrar-producto">Agregar Producto</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Generar PDF</a>
+        </li>
+    </ul>
 </div>
 <ng-container *ngIf="productos.length === 0; else siProductos">
     <div class="container" #noProductos>
@@ -15,14 +15,15 @@
 </ng-container>
 
 <ng-template #siProductos>
-    
+
     <div class="container">
         <h3 style="text-align: center;">Lista de Productos</h3>
         <div class="form-group mb-3">
             <input type="text" matInput placeholder="Buscar" (input)="applyFilter($event)" class="form-control">
         </div>
         <div class="table-responsive">
-            <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 table table-borderless table-striped align-middle">
+            <table mat-table [dataSource]="dataSource" matSort
+                class="mat-elevation-z8 table table-borderless table-striped align-middle">
                 <ng-container matColumnDef="nombre">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
                     <td mat-cell *matCellDef="let row">{{ row.nombre }}</td>
@@ -38,7 +39,8 @@
                 <ng-container matColumnDef="acciones">
                     <th mat-header-cell *matHeaderCellDef>Acciones</th>
                     <td mat-cell *matCellDef="let row">
-                        <button type="button" class="btn btn-primary me-2 mt-1" (click)="editarProducto(row.id_producto)">Editar</button>
+                        <button type="button" class="btn btn-primary me-2 mb-1"
+                            (click)="editarProducto(row.id_producto)">Editar</button>
                         <button type="button" class="btn btn-danger" (click)="openConfirmModal(row)">Eliminar</button>
                     </td>
                 </ng-container>
@@ -51,26 +53,26 @@
     </div>
 
 
-        <!-- Modal de Confirmación -->
-        <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Borrado</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <strong>Este articulo se encuentra en algun almacen</strong> <br>
-                        Se eliminara de todos los almacenes que tengan existencias de este producto <br>
-                        ¿Estás seguro de que deseas eliminar el articulo {{ selectedProducto?.nombre }}?
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                            (click)="cancelDelete()">Cancelar</button>
-                        <button type="button" class="btn btn-danger" (click)="confirmDelete()">Eliminar</button>
-                    </div>
+    <!-- Modal de Confirmación -->
+    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Borrado</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <strong>Este articulo se encuentra en algun almacen</strong> <br>
+                    Se eliminara de todos los almacenes que tengan existencias de este producto <br>
+                    ¿Estás seguro de que deseas eliminar el articulo {{ selectedProducto?.nombre }}?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                        (click)="cancelDelete()">Cancelar</button>
+                    <button type="button" class="btn btn-danger" (click)="confirmDelete()">Eliminar</button>
                 </div>
             </div>
         </div>
+    </div>
 </ng-template>

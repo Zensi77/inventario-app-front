@@ -15,5 +15,5 @@ export const routes: Routes = [
   { path: 'editar-fabricante/:id', component: EditarFabricanteComponent },
   { path: 'registrar-fabricante', component: RegistrarFabricanteComponent},
   { path: 'almacenes', component: AlmacenesComponent}, // Ruta para el componente Almacenes
-  { path: '', redirectTo: 'productos', pathMatch: 'full' }, // Ruta sin especificar
+  { path: '', redirectTo: 'almacenes', pathMatch: 'full' }, // Ruta sin especificar
 ];

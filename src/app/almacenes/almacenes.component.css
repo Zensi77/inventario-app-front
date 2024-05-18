@@ -1,0 +1,67 @@
+/*animaciones de las tarjetas de almacén-*/
+.almacen-card {
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+}
+
+.almacen-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.almacen-nombre {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #333;
+}
+
+img {
+    transition: transform 0.3s;
+}
+
+img:hover {
+    transform: scale(1.1);
+}
+
+/*Estilos de los formularios*/
+/* Animaciones */
+.fade-in {
+    animation: fadeIn 0.2s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* Estilos */
+.form-container {
+    font-family: Arial, sans-serif;
+    color: #333;
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+.form-container h2 {
+    margin-bottom: 20px;
+}
+
+.form-container .form-control {
+    margin-bottom: 15px;
+}
+
+.form-container .btn {
+    margin-top: 10px;
+}
+
+.modal-content{
+    animation: fadeIn 0.5s ease-in-out;
+}

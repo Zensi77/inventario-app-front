@@ -27,6 +27,8 @@ export class ProductoComponent implements OnInit, AfterViewInit {
   productosFiltrados: Producto[];
   selectedProducto: Producto | null = null;
 
+  private modal: any;
+
   displayedColumns: string[] = ['nombre', 'descripcion', 'precio', 'acciones'];
   dataSource = new MatTableDataSource<Producto>([]);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -49,7 +51,7 @@ export class ProductoComponent implements OnInit, AfterViewInit {
       setTimeout(() => { // Se espera un tiempo para que se cargue la tabla
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
-      }, 30);
+      }, 100);
   }
 
   // metodo para obtener productos
@@ -72,9 +74,9 @@ export class ProductoComponent implements OnInit, AfterViewInit {
     // Si existe el elemento modal
     if (modalElement) {
       // Se crea una nueva instancia de la clase Modal de Bootstrap
-      const modal = new (window as any).bootstrap.Modal(modalElement);
+      this.modal = new (window as any).bootstrap.Modal(modalElement);
       // Se muestra el modal
-      modal.show();
+      this.modal.show();
     }
   }
 
@@ -91,6 +93,9 @@ export class ProductoComponent implements OnInit, AfterViewInit {
           this.selectedProducto = null;
         });
     }
+
+    // Cierra la ventana modal
+    this.modal.hide();
   }
 
   cancelDelete() {

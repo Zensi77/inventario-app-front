@@ -19,6 +19,10 @@ export class AlmacenService {
     return this.HTTPcliente.post<Almacen>(this.URL, almacen)
   }
 
+  actualizarAlmacen(almacen: Almacen): Observable<Almacen> {
+    return this.HTTPcliente.put<Almacen>(`${this.URL}/${almacen.id_almacen}`, almacen);
+  }
+
   borrarAlmacen(id: number): Observable<Almacen> {
     return this.HTTPcliente.delete<Almacen>(`${this.URL}/${id}`);
   }

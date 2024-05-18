@@ -37,6 +37,8 @@ export class FabricanteComponent implements OnInit, AfterViewInit {
   fabricantes: Fabricante[] = [];
   selectedFabricante: Fabricante | null = null; // Fabricante seleccionado para borrar
 
+  private modal: any; // Modal de confirmación
+
   displayedColumns: string[] = ['nombre', 'direccion', 'telefono', 'acciones']; // Columnas de la tabla
   dataSource = new MatTableDataSource<Fabricante>([]); // Datos de la tabla
   @ViewChild(MatPaginator) paginator!: MatPaginator; // Paginador de la tabla
@@ -81,8 +83,8 @@ export class FabricanteComponent implements OnInit, AfterViewInit {
     this.selectedFabricante = fabricante;
     const modalElement = document.getElementById('confirmDeleteModal');
     if (modalElement) {
-      const modal = new (window as any).bootstrap.Modal(modalElement);
-      modal.show();
+      this.modal = new (window as any).bootstrap.Modal(modalElement);
+      this.modal.show();
     }
   }
 
@@ -96,6 +98,8 @@ export class FabricanteComponent implements OnInit, AfterViewInit {
           this.selectedFabricante = null;
         });
     }
+
+    this.modal.hide();
   }
 
   // El modal llama a esta función para cancelar el borrado

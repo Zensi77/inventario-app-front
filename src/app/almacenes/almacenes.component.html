@@ -1,1 +1,138 @@
-<p>almacenes works!</p>
+<div class="container">
+    <ul class="nav justify-content-center">
+        <li class="nav-item">
+            <button class="nav-link" (click)="agregarAlmacen()">Agregar almacen</button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link">Generar PDF</button>
+        </li>
+    </ul>
+</div>
+
+
+
+<div *ngIf="almacenEditar === null && almacenNuevo===null; else mostrarForm " @fadeIn>
+    <div *ngIf="!almacenSeleccionado" else mostrarArticulos>
+        <ng-container *ngIf="almacenes.length > 0" else noAlmacenes>
+            <div class="container py-4">
+                <h3 class="text-center mb-4">Lista de Almacenes</h3>
+                <input class="form-control mb-4" type="text" placeholder="Buscar almacén"
+                    (input)="filtrarAlmacenes($event)">
+                <div class="d-grid gap-4" style="grid-template-columns: repeat(5, 1fr);">
+                    <div *ngFor="let almacen of almacenesFiltrados" class="almacen-card p-3 border bg-light"
+                        (click)="seleccionarAlmacen(almacen)">
+                        <div class="text-center">
+                            <img src="assets/images/754877.png" width="60" class="mb-3">
+                            <h5 class="almacen-nombre">{{ almacen.nombre }}</h5>
+                        </div>
+                        <div class="d-flex justify-content-between mt-3">
+                            <button class="btn btn-outline-secondary" (click)="editarAlmacen(almacen, $event)">
+                                <img src="assets/images/editar.png" width="24">
+                            </button>
+                            <button class="btn btn-outline-secondary" (click)="openModal(almacen, $event)">
+                                <img src="assets/images/borrar.png" width="24">
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal de Confirmación -->
+                    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Borrado</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <strong>Se borraran todos los productos que queden en el almacen seleccionado</strong> <br>
+                                    ¿Estás seguro de que deseas eliminar el almacen {{ almacenBorrar?.nombre }}?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                                        (click)="cancelDelete()">Cancelar</button>
+                                    <button type="button" class="btn btn-danger" (click)="confirmDelete()">Eliminar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+        </ng-container>
+
+        <ng-template #noAlmacenes>
+            <h3 class="text-center text-warning">No hay almacenes registrados</h3>
+        </ng-template>
+    </div>
+
+    <ng-template #mostrarArticulos>
+        <div *ngIf="listaArticulos.length === 0" else noArticulos></div>
+
+        <ng-template #noArticulos>
+            <h3 style="text-align: center;" class="text-warning">No hay artículos registrados en este almacén</h3>
+        </ng-template>
+    </ng-template>
+</div>
+
+
+<ng-template #mostrarForm>
+    <ng-template [ngIf]="almacenEditar !=null"> <!--Ve si el objeto no es null-->
+        <div class="container mt-5 fade-in form-container">
+            <h2 class="text-center mb-4">
+                Edición del Almacén "{{ almacenEditar?.nombre }}"
+            </h2>
+            <form (ngSubmit)="onSubmitEditar()">
+                <div class="mb-3">
+                    <label for="nombre" class="form-label">Nombre</label>
+                    <input type="text" class="form-control" id="nombre" name="nombre"
+                        [(ngModel)]="almacenEditar!.nombre" required>
+                </div>
+                <div class="mb-3">
+                    <label for="direccion" class="form-label">Dirección</label>
+                    <input class="form-control" id="direccion" name="direccion" [(ngModel)]="almacenEditar!.direccion">
+                </div>
+                <div class="mb-3">
+                    <label for="telefono" class="form-label">Teléfono</label>
+                    <input type="text" class="form-control" id="telefono" name="telefono"
+                        [(ngModel)]="almacenEditar!.telefono" required>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <button type="submit" class="btn btn-primary w-100">Actualizar</button>
+                    <button type="button" class="btn btn-secondary w-100 ms-2"
+                        (click)="cancelarEdicion()">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </ng-template>
+
+    <ng-template [ngIf]="almacenNuevo!=null">
+        <div class="container mt-5 fade-in form-container" @fadeIn>
+            <h2 class="text-center mb-4">
+                Agregar Nuevo Almacén
+            </h2>
+            <form (ngSubmit)="onSubmitAgregar()">
+                <div class="mb-3">
+                    <label for="nombre" class="form-label">Nombre</label>
+                    <input type="text" class="form-control" id="nombre" name="nombre" [(ngModel)]="almacenNuevo.nombre"
+                        required>
+                </div>
+                <div class="mb-3">
+                    <label for="direccion" class="form-label">Dirección</label>
+                    <input class="form-control" id="direccion" name="direccion" [(ngModel)]="almacenNuevo.direccion">
+                </div>
+                <div class="mb-3">
+                    <label for="telefono" class="form-label">Teléfono</label>
+                    <input type="text" class="form-control" id="telefono" name="telefono"
+                        [(ngModel)]="almacenNuevo.telefono" required>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <button type="submit" class="btn btn-primary w-100">Agregar</button>
+                    <button type="button" class="btn btn-secondary w-100 ms-2"
+                        (click)="almacenNuevo = null">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </ng-template>
+
+</ng-template>
