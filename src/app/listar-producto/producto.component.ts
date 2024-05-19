@@ -29,7 +29,7 @@ export class ProductoComponent implements OnInit, AfterViewInit {
 
   private modal: any;
 
-  displayedColumns: string[] = ['nombre', 'descripcion', 'precio', 'acciones'];
+  displayedColumns: string[] = ['nombre', 'descripcion', 'precio', 'fabricante', 'imagen', 'acciones'];
   dataSource = new MatTableDataSource<Producto>([]);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;

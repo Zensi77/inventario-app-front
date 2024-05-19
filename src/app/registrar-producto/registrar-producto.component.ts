@@ -28,7 +28,6 @@ export class RegistrarProductoComponent {
     private productoService: ProductoService,
     private fabricanteService: FabricanteService,
     private enrutador: Router,
-    private toastr: ToastrService
   ) {}
 
   ngOnInit() {

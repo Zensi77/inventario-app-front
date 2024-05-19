@@ -36,6 +36,19 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Precio</th>
                     <td mat-cell *matCellDef="let row">{{ row.precio }} $</td>
                 </ng-container>
+                <ng-container matColumnDef="fabricante">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Fabricante</th>
+                    <td mat-cell *matCellDef="let row">{{ row.fabricante.nombre }}</td>
+                </ng-container>
+                <ng-container matColumnDef="imagen">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Imagen</th>
+                    <td mat-cell *matCellDef="let row">
+                        <img *ngIf="row.imagen; else noImg" [src]="'data:' + row.mimeType + ';base64,' + row.imagen" width="100">
+                        <ng-template #noImg>
+                            <img src="assets/images/not-found.jpg" alt="No hay imagen" width="100">
+                        </ng-template>
+                    </td>
+                </ng-container>
                 <ng-container matColumnDef="acciones">
                     <th mat-header-cell *matHeaderCellDef>Acciones</th>
                     <td mat-cell *matCellDef="let row">
