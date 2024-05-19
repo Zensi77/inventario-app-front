@@ -16,9 +16,9 @@ export class ProductoService {
     return this.clientHttp.get<Producto[]>(this.URL); // Hace una petición GET a la URL
   }
 
-  agregarProducto(producto: Producto): Observable<Producto> {
+  agregarProducto(formData: FormData): Observable<Producto> {
     // Método para agregar un producto
-    return this.clientHttp.post<Producto>(this.URL, producto); // Hace una petición POST a la URL
+    return this.clientHttp.post<Producto>(this.URL, formData); // Hace una petición POST a la URL
   }
 
   eliminarProducto(id: number): Observable<Producto> {

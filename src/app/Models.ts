@@ -4,6 +4,7 @@ export class Producto {
   descripcion: string;
   precio: number;
   existencia: number;
+  imagen?: string;
   fabricante: {
     id_fabricante: number;
     nombre: string;

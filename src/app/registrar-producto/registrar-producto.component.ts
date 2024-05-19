@@ -21,6 +21,9 @@ export class RegistrarProductoComponent {
   terminoBusqueda: string = '';
   fabricantesFiltrados: Fabricante[];
 
+  imagen: File | null = null; // mismo nombre que en el backend
+  imagenURL: string | null = null;
+
   constructor(
     private productoService: ProductoService,
     private fabricanteService: FabricanteService,
@@ -30,26 +33,49 @@ export class RegistrarProductoComponent {
 
   ngOnInit() {
     // Se obtienen los fabricantes
-    this.fabricanteService
-      .obtenerFabricantes()
-      .subscribe((fabricantes) => {
-        this.fabricantes = fabricantes
-        this.fabricantesFiltrados = fabricantes
-      });
+    this.fabricanteService.obtenerFabricantes().subscribe((fabricantes) => {
+      this.fabricantes = fabricantes;
+      this.fabricantesFiltrados = fabricantes;
+    });
   }
 
   // Metodo para registrar un producto
   onSubmit() {
-    this.productoService
-      .agregarProducto(this.producto)
-      .subscribe((producto) => {
-        this.toastr.success(
-          'Producto registrado exitosamente',
-          'Producto registrado'
-        );
-      });
-    
-      this.enrutador.navigate(['/listar-producto']);
+    const formData = new FormData();
+
+    // Se agrega la información del producto al formData, puesto que el backend espera un formData
+    formData.append(
+      'producto',
+      new Blob([JSON.stringify(this.producto)], { type: 'application/json' })
+    ); // Se convierte el objeto a JSON
+    if (this.imagen) {
+      formData.append('imagen', this.imagen);
+    }
+
+    this.productoService.agregarProducto(formData).subscribe((response) => {
+      console.log(response);
+    });
+
+    this.enrutador.navigate(['/productos']);
+  }
+
+  // Metodo para seleccionar una imagen
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+    if (file && file.type === 'image/png') {
+      this.imagen = file;
+
+      // Crear una URL de la imagen seleccionada para la previsualización
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.imagenURL = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    } else {
+      this.imagen = null;
+      this.imagenURL = null;
+      alert('Solo se permiten imágenes PNG');
+    }
   }
 
   // Metodo para filtrar los fabricantes por nombre
