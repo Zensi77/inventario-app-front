@@ -27,3 +27,10 @@ export class Almacen {
   direccion: string;
   telefono: string;
 }
+
+export class ProductoAlmacen {
+  id_producto_almacen: number;
+  producto: Producto;
+  almacen: Almacen;
+  cantidad: number;
+}

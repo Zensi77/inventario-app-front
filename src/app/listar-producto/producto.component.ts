@@ -48,6 +48,7 @@ export class ProductoComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+      this.obtenerProductos();
       setTimeout(() => { // Se espera un tiempo para que se cargue la tabla
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
