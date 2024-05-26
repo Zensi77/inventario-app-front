@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Almacen, Producto, ProductoAlmacen } from './Models';
+import { Almacen, Producto } from './Models';
 
 @Injectable({
   providedIn: 'root'
@@ -30,15 +30,4 @@ export class AlmacenService {
   obtenerArticulosAlmacen(id:number): Observable<Producto[]> {
     return this.HTTPcliente.get<Producto[]>(`${this.URL}/${id}`);
   }
-}
-
-export class ProductoAlmacenService {
-  private URL = 'http://localhost:8080/inventario-app/productos';
-
-  constructor(private HTTPcliente: HttpClient) {}
-
-  obtenerProductos(): Observable<ProductoAlmacen[]> {
-    return this.HTTPcliente.get<ProductoAlmacen[]>(this.URL);
-  }
-  
 }

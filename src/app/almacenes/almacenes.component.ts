@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, ActivatedRoute, RouterLink } from '@angular/router';
-import { Almacen, Producto } from '../Models';
+import { Almacen, Producto, ProductoAlmacen } from '../Models';
 import { AlmacenService } from '../almacen.service';
 import { ProductoService } from '../producto.service';
 import { Router } from '@angular/router';
@@ -16,6 +16,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSort, MatSortModule } from '@angular/material/sort';
+import { ProductoAlmacenService } from '../producto-almacen.service';
 
 
 @Component({
@@ -46,13 +47,17 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 })
 export class AlmacenesComponent implements OnInit {
   almacenes: Almacen[] = [];
-  listaArticulos: Producto[] = [];
-
+  listaArticulos: ProductoAlmacen[] = [];
+  listaArticulosGeneral: Producto[] = [];
+  listaArticulosGeneralFiltrada: Producto[] = [];
   almacenSeleccionado: Almacen | any = null;
   almacenEditar: Almacen | any = null;
   almacenesFiltrados: Almacen[] = [];
+  listaArticulosFiltrados: ProductoAlmacen[] = [];
+  insertarProductoAlmacen: ProductoAlmacen | any = null;
   almacenNuevo: Almacen | any = null;
   almacenBorrar: Almacen | any = null;
+  productosNuevo: Producto[] = [];
 
   private modal: any;
 
@@ -65,14 +70,16 @@ export class AlmacenesComponent implements OnInit {
     'cantidad',
     'acciones',
   ];
-  dataSource = new MatTableDataSource<Producto>([]);
+  dataSource = new MatTableDataSource<ProductoAlmacen>([]);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private almacenService: AlmacenService
+    private almacenService: AlmacenService,
+    private ProductoAlmacenService: ProductoAlmacenService,
+    private ProductoService: ProductoService
   ) {}
 
   ngOnInit() {
@@ -89,17 +96,14 @@ export class AlmacenesComponent implements OnInit {
 
   seleccionarAlmacen(almacen: Almacen) {
     this.almacenSeleccionado = almacen;
-
-    this.almacenService
-    .obtenerArticulosAlmacen(almacen.id_almacen)
-    .subscribe((articulos) => {
-      this.dataSource.data = articulos;
-      this.listaArticulos = articulos;
+    this.ProductoAlmacenService.obtenerProductos(
+      this.almacenSeleccionado
+    ).subscribe((productos) => {
+      this.listaArticulosFiltrados = productos;
+      this.listaArticulos = productos;
+      this.dataSource.data = productos;
     });
-    
-    console.log(this.almacenSeleccionado);
-    console.log(this.listaArticulos);
-    
+
     setTimeout(() => {
       // Se espera un tiempo para que se cargue la tabla
       this.dataSource.paginator = this.paginator;
@@ -107,9 +111,29 @@ export class AlmacenesComponent implements OnInit {
     }, 100);
   }
 
-  modifCantidad(producto: Producto, cantidad: number) {}
+  modifCantidad(productoAlmacen: ProductoAlmacen, cantidad: number) {
+    this.ProductoAlmacenService.modificarProductoAlmacen(
+      productoAlmacen,
+      cantidad
+    );
 
-  eliminarArticuloAlmacen(producto: Producto) {}
+    setTimeout(() => {
+      // Se espera un tiempo para que se cargue la tabla y mostrar los cambios
+      this.seleccionarAlmacen(this.almacenSeleccionado);
+    }, 100);
+  }
+
+  eliminarArticuloAlmacen(producto: ProductoAlmacen) {
+    this.ProductoAlmacenService.eliminarArticuloAlmacen(
+      producto.producto,
+      producto.almacen
+    );
+
+    setTimeout(() => {
+      // Se espera un tiempo para que se cargue la tabla
+      this.seleccionarAlmacen(this.almacenSeleccionado);
+    }, 100);
+  }
 
   agregarAlmacen() {
     this.almacenNuevo = {
@@ -118,6 +142,25 @@ export class AlmacenesComponent implements OnInit {
       direccion: '',
       telefono: '',
     };
+  }
+
+  agregarProductoAlmacen() {
+    this.ProductoService.obtenerProductos().subscribe((productos) => {
+      this.listaArticulosGeneral = productos;
+      this.listaArticulosGeneralFiltrada = productos;
+    });
+    this.insertarProductoAlmacen = new ProductoAlmacen();
+
+    console.log(this.listaArticulosGeneral.length);
+  }
+
+  filtrarArticulosNuevos(event: Event) {
+    const valor = (event.target as HTMLInputElement).value;
+    this.listaArticulosGeneralFiltrada = this.listaArticulosGeneral.filter(
+      (producto) => {
+        return producto.nombre.toLowerCase().includes(valor.toLowerCase());
+      }
+    );
   }
 
   editarAlmacen(almacen: Almacen, event: Event) {
@@ -145,6 +188,8 @@ export class AlmacenesComponent implements OnInit {
         this.obtenerAlmacenes();
         this.almacenBorrar = null;
       });
+
+    this.modal.hide();
   }
 
   cancelDelete() {
@@ -163,10 +208,9 @@ export class AlmacenesComponent implements OnInit {
   }
 
   filtrarProductosAlmacen(event: Event) {
-    const valor = (event.target as HTMLInputElement).value;
-    this.listaArticulos = this.listaArticulos.filter((articulo) => {
-      return articulo.nombre.toLowerCase().includes(valor.toLowerCase());
-    });
+    const filter = (event.target as HTMLInputElement).value;
+
+    this.dataSource.filter = filter.trim().toLowerCase();
   }
 
   onSubmitEditar() {
@@ -184,6 +228,8 @@ export class AlmacenesComponent implements OnInit {
       this.almacenNuevo = null;
     });
   }
+
+  onSubmitAgregarProductoAlmacen() {}
 
   cancelarEdicion() {
     this.almacenEditar = null;

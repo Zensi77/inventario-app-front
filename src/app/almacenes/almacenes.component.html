@@ -9,18 +9,14 @@
     </ul>
 </div>
 
-
-
-<div *ngIf="almacenEditar === null && almacenNuevo===null; else mostrarForm " @fadeIn>
+<div *ngIf="almacenEditar === null && almacenNuevo === null && insertarProductoAlmacen === null; else mostrarForm" @fadeIn>
     <div *ngIf="!almacenSeleccionado; else mostrarArticulos">
-        <ng-container *ngIf="almacenes.length > 0" else noAlmacenes>
+        <ng-container *ngIf="almacenes.length > 0; else noAlmacenes">
             <div class="container py-4">
                 <h3 class="text-center mb-4">Lista de Almacenes</h3>
-                <input class="form-control mb-4" type="text" placeholder="Buscar almacén"
-                    (input)="filtrarAlmacenes($event)">
+                <input class="form-control mb-4" type="text" placeholder="Buscar almacén" (input)="filtrarAlmacenes($event)">
                 <div class="d-grid gap-4" style="grid-template-columns: repeat(5, 1fr);">
-                    <div *ngFor="let almacen of almacenesFiltrados" class="almacen-card p-3 border bg-light"
-                        (click)="seleccionarAlmacen(almacen)">
+                    <div *ngFor="let almacen of almacenesFiltrados" class="almacen-card p-3 border bg-light" (click)="seleccionarAlmacen(almacen)">
                         <div class="text-center">
                             <img src="assets/images/754877.png" width="60" class="mb-3">
                             <h5 class="almacen-nombre">{{ almacen.nombre }}</h5>
@@ -38,26 +34,24 @@
             </div>
 
             <!-- Modal de Confirmación -->
-                    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel"
-                        aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Borrado</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <strong>Se borraran todos los productos que queden en el almacen seleccionado</strong> <br>
-                                    ¿Estás seguro de que deseas eliminar el almacen {{ almacenBorrar?.nombre }}?
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                                        (click)="cancelDelete()">Cancelar</button>
-                                    <button type="button" class="btn btn-danger" (click)="confirmDelete()">Eliminar</button>
-                                </div>
-                            </div>
+            <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Borrado</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <strong>Se borraran todos los productos que queden en el almacen seleccionado</strong> <br>
+                            ¿Estás seguro de que deseas eliminar el almacen {{ almacenBorrar?.nombre }}?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="cancelDelete()">Cancelar</button>
+                            <button type="button" class="btn btn-danger" (click)="confirmDelete()">Eliminar</button>
                         </div>
                     </div>
+                </div>
+            </div>
         </ng-container>
 
         <ng-template #noAlmacenes>
@@ -66,34 +60,37 @@
     </div>
 
     <ng-template #mostrarArticulos>
-        <div *ngIf="listaArticulos.length > 0" else noArticulos>
-            <button (click)="almacenSeleccionado=null">Volver a la lista de almacenes</button>
-            <h3>Lista de articulos del almacen {{almacenSeleccionado.nombre}} </h3>
+        <div class="d-flex justify-content-around mt-3 mb-3" @fadeIn>
+            <button class="btn btn-group-lg" (click)="almacenSeleccionado=null">Volver a la lista de almacenes</button>
+            <button class="btn btn-principal" (click)="agregarProductoAlmacen()">Agregar Articulo</button>
+        </div>
+        <div *ngIf="listaArticulos.length > 0; else noArticulos" class="container">
+            <h3 class="text-center mb-4">Lista de articulos del almacen {{almacenSeleccionado.nombre}}</h3>
             <div>
-                <input type="text" matInput placeholder="Buscar" (input)="filtrarProductosAlmacen($event)" class="form-group">
+                <input type="text" matInput placeholder="Buscar" (input)="filtrarProductosAlmacen($event)" class="form-control mb-3">
             </div>
             <div class="table-responsive">
                 <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 table table-borderless table-striped align-middle">
                     <ng-container matColumnDef="nombre">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
-                        <td mat-cell *matCellDef="let row">{{ row.nombre }}</td>
+                        <td mat-cell *matCellDef="let row">{{ row.producto.nombre }}</td>
                     </ng-container>
                     <ng-container matColumnDef="descripcion">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>Descripción</th>
-                        <td mat-cell *matCellDef="let row">{{ row.descripcion }}</td>
+                        <td mat-cell *matCellDef="let row">{{ row.producto.descripcion }}</td>
                     </ng-container>
                     <ng-container matColumnDef="precio">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>Precio</th>
-                        <td mat-cell *matCellDef="let row">{{ row.precio }} $</td>
+                        <td mat-cell *matCellDef="let row">{{ row.producto.precio }} $</td>
                     </ng-container>
                     <ng-container matColumnDef="fabricante">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>Fabricante</th>
-                        <td mat-cell *matCellDef="let row">{{ row.fabricante.nombre }}</td>
+                        <td mat-cell *matCellDef="let row">{{ row.producto.fabricante.nombre }}</td>
                     </ng-container>
                     <ng-container matColumnDef="imagen">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>Imagen</th>
                         <td mat-cell *matCellDef="let row">
-                            <img *ngIf="row.imagen; else noImg" [src]="'data:' + row.mimeType + ';base64,' + row.imagen" width="100">
+                            <img *ngIf="row.imagen; else noImg" [src]="'data:' + row.articulo.mimeType + ';base64,' + row.articulo.imagen" width="100">
                             <ng-template #noImg>
                                 <img src="assets/images/not-found.jpg" alt="No hay imagen" width="100">
                             </ng-template>
@@ -106,13 +103,17 @@
                     <ng-container matColumnDef="acciones">
                         <th mat-header-cell *matHeaderCellDef>Acciones</th>
                         <td mat-cell *matCellDef="let row">
-                            <button type="button" class="btn btn-primary me-2 mb-1" (click)="modifCantidad(row, 1)">Incrementar</button>
-                            <button type="button" class="btn btn-primary me-2 mb-1" (click)="modifCantidad(row, -1)">Decrementar</button>
-                            <button type="button" class="btn btn-danger" (click)="eliminarArticuloAlmacen(row)">Eliminar</button>
+                            <button type="button" class="btn btn-primary me-2 mb-1" (click)="modifCantidad(row, 1)"><img src="assets/images/anadir.png" alt="anadir" width="20px"></button>
+                            <button type="button" class="btn btn-primary me-2 mb-1" (click)="modifCantidad(row, -1)"><img src="assets/images/quitar.png" alt="quitar" width="20px"></button>
+                            <button type="button" class="btn btn-danger" (click)="eliminarArticuloAlmacen(row)"><img src="assets/images/eliminar.png" alt="borrar" width="20px"></button>
                         </td>
                     </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                 </table>
             </div>
+            <mat-paginator [pageSize]="10" [pageSizeOptions]="[10, 20, 50]"></mat-paginator>
         </div>
         <ng-template #noArticulos>
             <h3 style="text-align: center;" class="text-warning">No hay artículos registrados en este almacén</h3>
@@ -120,18 +121,16 @@
     </ng-template>
 </div>
 
-
 <ng-template #mostrarForm>
-    <ng-template [ngIf]="almacenEditar !=null"> <!--Ve si el objeto no es null-->
-        <div class="container mt-5 fade-in form-container">
+    <ng-container [ngSwitch]="true">
+        <div *ngSwitchCase="almacenEditar !== null" class="container mt-5 fade-in form-container">
             <h2 class="text-center mb-4">
                 Edición del Almacén "{{ almacenEditar?.nombre }}"
             </h2>
             <form (ngSubmit)="onSubmitEditar()">
                 <div class="mb-3">
                     <label for="nombre" class="form-label">Nombre</label>
-                    <input type="text" class="form-control" id="nombre" name="nombre"
-                        [(ngModel)]="almacenEditar!.nombre" required>
+                    <input type="text" class="form-control" id="nombre" name="nombre" [(ngModel)]="almacenEditar!.nombre" required>
                 </div>
                 <div class="mb-3">
                     <label for="direccion" class="form-label">Dirección</label>
@@ -139,28 +138,23 @@
                 </div>
                 <div class="mb-3">
                     <label for="telefono" class="form-label">Teléfono</label>
-                    <input type="text" class="form-control" id="telefono" name="telefono"
-                        [(ngModel)]="almacenEditar!.telefono" required>
+                    <input type="text" class="form-control" id="telefono" name="telefono" [(ngModel)]="almacenEditar!.telefono" required>
                 </div>
                 <div class="d-flex justify-content-between">
                     <button type="submit" class="btn btn-primary w-100">Actualizar</button>
-                    <button type="button" class="btn btn-secondary w-100 ms-2"
-                        (click)="cancelarEdicion()">Cancelar</button>
+                    <button type="button" class="btn btn-secondary w-100 ms-2" (click)="cancelarEdicion()">Cancelar</button>
                 </div>
             </form>
         </div>
-    </ng-template>
 
-    <ng-template [ngIf]="almacenNuevo!=null">
-        <div class="container mt-5 fade-in form-container" @fadeIn>
+        <div *ngSwitchCase="almacenNuevo !== null" class="container mt-5 fade-in form-container" @fadeIn>
             <h2 class="text-center mb-4">
                 Agregar Nuevo Almacén
             </h2>
             <form (ngSubmit)="onSubmitAgregar()">
                 <div class="mb-3">
                     <label for="nombre" class="form-label">Nombre</label>
-                    <input type="text" class="form-control" id="nombre" name="nombre" [(ngModel)]="almacenNuevo.nombre"
-                        required>
+                    <input type="text" class="form-control" id="nombre" name="nombre" [(ngModel)]="almacenNuevo.nombre" required>
                 </div>
                 <div class="mb-3">
                     <label for="direccion" class="form-label">Dirección</label>
@@ -168,16 +162,32 @@
                 </div>
                 <div class="mb-3">
                     <label for="telefono" class="form-label">Teléfono</label>
-                    <input type="text" class="form-control" id="telefono" name="telefono"
-                        [(ngModel)]="almacenNuevo.telefono" required>
+                    <input type="text" class="form-control" id="telefono" name="telefono" [(ngModel)]="almacenNuevo.telefono" required>
                 </div>
                 <div class="d-flex justify-content-between">
                     <button type="submit" class="btn btn-primary w-100">Agregar</button>
-                    <button type="button" class="btn btn-secondary w-100 ms-2"
-                        (click)="almacenNuevo = null">Cancelar</button>
+                    <button type="button" class="btn btn-secondary w-100 ms-2" (click)="almacenNuevo = null">Cancelar</button>
                 </div>
             </form>
         </div>
-    </ng-template>
 
+        <div *ngSwitchCase="insertarProductoAlmacen !== null" class="container mt-5 fade-in form-container" @fadeIn>
+            <h2 class="text-center mb-4">
+                Agregar nuevo producto al almacén {{almacenSeleccionado?.nombre}}
+            </h2>
+            <form (ngSubmit)="onSubmitAgregarProductoAlmacen()">
+                <div class="mb-3">
+                    <label for="articulos" class="form-label">Nombre</label>
+                    <input type="text" class="form-control mb-2" name="busquedaArticuloNuevo" (ngModelChange)="filtrarArticulosNuevos($event)" placeholder="Buscar articulo">
+                    <select name="articulos" class="form-select" id="articulos">
+                        <option *ngFor="let articulo of listaArticulosGeneralFiltrada" [ngValue]="articulo">{{articulo.nombre}}</option>
+                    </select>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <button type="submit" class="btn btn-primary w-100">Agregar</button>
+                    <button type="button" class="btn btn-secondary w-100 ms-2" (click)="insertarProductoAlmacen = null">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </ng-container>
 </ng-template>
