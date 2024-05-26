@@ -57,7 +57,7 @@ export class AlmacenesComponent implements OnInit {
   insertarProductoAlmacen: ProductoAlmacen | any = null;
   almacenNuevo: Almacen | any = null;
   almacenBorrar: Almacen | any = null;
-  productosNuevo: Producto[] = [];
+  productosNuevos: ProductoAlmacen[] = [];
 
   private modal: any;
 
@@ -163,6 +163,13 @@ export class AlmacenesComponent implements OnInit {
     );
   }
 
+  agregarListaProductos(producto: ProductoAlmacen) {
+    console.log(producto);
+    this.productosNuevos.push(producto); // Se agrega el producto a la lista y se muestra en el form
+
+    this.insertarProductoAlmacen = new ProductoAlmacen();
+  }
+
   editarAlmacen(almacen: Almacen, event: Event) {
     event.stopPropagation(); // Evita que el evento se propague a otros elementos
     this.almacenEditar = almacen;
@@ -229,7 +236,9 @@ export class AlmacenesComponent implements OnInit {
     });
   }
 
-  onSubmitAgregarProductoAlmacen() {}
+  onSubmitAgregarProductoAlmacen() {
+    
+  }
 
   cancelarEdicion() {
     this.almacenEditar = null;

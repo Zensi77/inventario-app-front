@@ -178,14 +178,40 @@
             <form (ngSubmit)="onSubmitAgregarProductoAlmacen()">
                 <div class="mb-3">
                     <label for="articulos" class="form-label">Nombre</label>
-                    <input type="text" class="form-control mb-2" name="busquedaArticuloNuevo" (ngModelChange)="filtrarArticulosNuevos($event)" placeholder="Buscar articulo">
-                    <select name="articulos" class="form-select" id="articulos">
-                        <option *ngFor="let articulo of listaArticulosGeneralFiltrada" [ngValue]="articulo">{{articulo.nombre}}</option>
-                    </select>
-                </div>
-                <div class="d-flex justify-content-between">
-                    <button type="submit" class="btn btn-primary w-100">Agregar</button>
+                    <input type="text" class="form-control mb-2" name="busquedaArticuloNuevo" (input)="filtrarArticulosNuevos($event)" placeholder="Buscar articulo">
+                    <div>
+                        <select name="articulos" class="form-select" id="articulos" [(ngModel)]="insertarProductoAlmacen.producto">
+                            <option *ngFor="let articulo of listaArticulosGeneralFiltrada" [ngValue]="articulo">{{articulo.nombre}}</option>
+                        </select>
+
+                        <label for="cantidad" class="form-label mt-3">Cantidad</label>
+                        <input type="number" class="form-control" id="cantidad" name="cantidad" [(ngModel)]="insertarProductoAlmacen.cantidad" required>
+                    </div>
+                    <div>
+                        <div *ngFor="let articulo of productosNuevos">
+                            <div class="d-flex justify-content-between mt-3">
+                                <div>
+                                    <img *ngIf="articulo.producto.imagen; else noImg" [src]="'data:' + articulo.producto.mimeTypes + ';base64,' + articulo.producto.imagen" width="100">
+                                    <ng-template #noImg>
+                                        <img src="assets/images/not-found.jpg" alt="No hay imagen" width="100">
+                                    </ng-template>
+                                </div>
+                                <div>
+                                    <h5>{{articulo.producto.nombre}}</h5>
+                                    <p>{{articulo.producto.descripcion}}</p>
+                                </div>
+                                <div>
+                                    <h5>Cantidad</h5>
+                                    <p>{{articulo.cantidad}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-primary w-100" (click)="agregarListaProductos(insertarProductoAlmacen)">Agregar</button>
+                    <div class="d-flex justify-content-between">
+                    <button type="submit" class="btn btn-primary w-100">Subir</button>
                     <button type="button" class="btn btn-secondary w-100 ms-2" (click)="insertarProductoAlmacen = null">Cancelar</button>
+                </div>
                 </div>
             </form>
         </div>
