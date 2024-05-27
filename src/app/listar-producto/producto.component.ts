@@ -15,21 +15,35 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 
-
 @Component({
   selector: 'app-producto',
   standalone: true,
-  imports: [CommonModule, RouterModule, MatPaginatorModule, MatInputModule, MatButtonModule, MatTableModule, MatSortModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    MatPaginatorModule,
+    MatInputModule,
+    MatButtonModule,
+    MatTableModule,
+    MatSortModule,
+  ],
   templateUrl: './producto.component.html',
 })
 export class ProductoComponent implements OnInit, AfterViewInit {
-  productos: Producto[]=[];
+  productos: Producto[] = [];
   productosFiltrados: Producto[];
   selectedProducto: Producto | null = null;
 
   private modal: any;
 
-  displayedColumns: string[] = ['nombre', 'descripcion', 'precio', 'fabricante', 'imagen', 'acciones'];
+  displayedColumns: string[] = [
+    'nombre',
+    'descripcion',
+    'precio',
+    'fabricante',
+    'imagen',
+    'acciones',
+  ];
   dataSource = new MatTableDataSource<Producto>([]);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -48,23 +62,22 @@ export class ProductoComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-      this.obtenerProductos();
-      setTimeout(() => { // Se espera un tiempo para que se cargue la tabla
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-      }, 100);
+    this.obtenerProductos();
+    setTimeout(() => {
+      // Se espera un tiempo para que se cargue la tabla
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    }, 100);
   }
 
   // metodo para obtener productos
   // subscribe: se suscribe a los cambios de la petición
   // Expresion lambda (productos => this.productos = productos): asigna el resultado de la petición
   obtenerProductos() {
-    this.productoServicio
-      .obtenerProductos()
-      .subscribe((productos) => {
-        this.dataSource.data = productos; // Se asignan los productos a la tabla
-        this.productos = productos;
-      });
+    this.productoServicio.obtenerProductos().subscribe((productos) => {
+      this.dataSource.data = productos; // Se asignan los productos a la tabla
+      this.productos = productos;
+    });
   }
 
   openConfirmModal(producto: Producto) {

@@ -36,4 +36,15 @@ export class ProductoAlmacenService {
       (error) => console.error('Error al modificar el producto', error)
     );
   }
+
+  insertarProductoAlmacen(productoAlmacen: ProductoAlmacen): void {
+    console.log(productoAlmacen);
+    this.HTTPcliente.post<ProductoAlmacen>(
+      `${this.URL}`,
+      productoAlmacen
+    ).subscribe(
+      (response) => console.log('Producto insertado exitosamente', response),
+      (error) => console.error('Error al insertar el producto', error)
+    );
+  }
 }

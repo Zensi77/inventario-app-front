@@ -59,7 +59,8 @@ export class FabricanteComponent implements OnInit, AfterViewInit {
 
   // Inicializa el paginador y el ordenador de la tabla
   ngAfterViewInit(): void {
-    setTimeout(() => { // Se espera un tiempo para que se cargue la tabla, si no el paginador no se inicializa correctamente
+    setTimeout(() => {
+      // Se espera un tiempo para que se cargue la tabla, si no el paginador no se inicializa correctamente
       // Se espera un tiempo para que se cargue la tabla
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;

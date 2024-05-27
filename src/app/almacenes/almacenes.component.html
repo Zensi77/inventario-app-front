@@ -9,14 +9,17 @@
     </ul>
 </div>
 
-<div *ngIf="almacenEditar === null && almacenNuevo === null && insertarProductoAlmacen === null; else mostrarForm" @fadeIn>
-    <div *ngIf="!almacenSeleccionado; else mostrarArticulos">
+<div *ngIf="almacenEditar === null && almacenNuevo === null && insertarProductoAlmacen === null; else mostrarForm"
+    @fadeIn>
+    <div *ngIf="!almacenSeleccionado; else mostrarArticulos" @fadeIn>
         <ng-container *ngIf="almacenes.length > 0; else noAlmacenes">
-            <div class="container py-4">
+            <div class="container py-4" @fadeIn>
                 <h3 class="text-center mb-4">Lista de Almacenes</h3>
-                <input class="form-control mb-4" type="text" placeholder="Buscar almacén" (input)="filtrarAlmacenes($event)">
+                <input class="form-control mb-4" type="text" placeholder="Buscar almacén"
+                    (input)="filtrarAlmacenes($event)">
                 <div class="d-grid gap-4" style="grid-template-columns: repeat(5, 1fr);">
-                    <div *ngFor="let almacen of almacenesFiltrados" class="almacen-card p-3 border bg-light" (click)="seleccionarAlmacen(almacen)">
+                    <div *ngFor="let almacen of almacenesFiltrados" class="almacen-card p-3 border bg-light"
+                        (click)="seleccionarAlmacen(almacen)">
                         <div class="text-center">
                             <img src="assets/images/754877.png" width="60" class="mb-3">
                             <h5 class="almacen-nombre">{{ almacen.nombre }}</h5>
@@ -34,7 +37,8 @@
             </div>
 
             <!-- Modal de Confirmación -->
-            <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+            <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel"
+                aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -46,7 +50,8 @@
                             ¿Estás seguro de que deseas eliminar el almacen {{ almacenBorrar?.nombre }}?
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="cancelDelete()">Cancelar</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                                (click)="cancelDelete()">Cancelar</button>
                             <button type="button" class="btn btn-danger" (click)="confirmDelete()">Eliminar</button>
                         </div>
                     </div>
@@ -67,10 +72,12 @@
         <div *ngIf="listaArticulos.length > 0; else noArticulos" class="container">
             <h3 class="text-center mb-4">Lista de articulos del almacen {{almacenSeleccionado.nombre}}</h3>
             <div>
-                <input type="text" matInput placeholder="Buscar" (input)="filtrarProductosAlmacen($event)" class="form-control mb-3">
+                <input type="text" matInput placeholder="Buscar" (input)="filtrarProductosAlmacen($event)"
+                    class="form-control mb-3">
             </div>
             <div class="table-responsive">
-                <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 table table-borderless table-striped align-middle">
+                <table mat-table [dataSource]="dataSource" matSort
+                    class="mat-elevation-z8 table table-borderless table-striped align-middle">
                     <ng-container matColumnDef="nombre">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
                         <td mat-cell *matCellDef="let row">{{ row.producto.nombre }}</td>
@@ -90,7 +97,8 @@
                     <ng-container matColumnDef="imagen">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>Imagen</th>
                         <td mat-cell *matCellDef="let row">
-                            <img *ngIf="row.imagen; else noImg" [src]="'data:' + row.articulo.mimeType + ';base64,' + row.articulo.imagen" width="100">
+                            <img *ngIf="row.imagen; else noImg"
+                                [src]="'data:' + row.articulo.mimeType + ';base64,' + row.articulo.imagen" width="100">
                             <ng-template #noImg>
                                 <img src="assets/images/not-found.jpg" alt="No hay imagen" width="100">
                             </ng-template>
@@ -103,9 +111,13 @@
                     <ng-container matColumnDef="acciones">
                         <th mat-header-cell *matHeaderCellDef>Acciones</th>
                         <td mat-cell *matCellDef="let row">
-                            <button type="button" class="btn btn-primary me-2 mb-1" (click)="modifCantidad(row, 1)"><img src="assets/images/anadir.png" alt="anadir" width="20px"></button>
-                            <button type="button" class="btn btn-primary me-2 mb-1" (click)="modifCantidad(row, -1)"><img src="assets/images/quitar.png" alt="quitar" width="20px"></button>
-                            <button type="button" class="btn btn-danger" (click)="eliminarArticuloAlmacen(row)"><img src="assets/images/eliminar.png" alt="borrar" width="20px"></button>
+                            <button type="button" class="btn btn-primary me-1 mb-1" (click)="modifCantidad(row, 1)"><img
+                                    src="assets/images/anadir.png" alt="anadir" width="20px"></button>
+                            <button type="button" class="btn btn-primary me-1 mb-1"
+                                (click)="modifCantidad(row, -1)"><img src="assets/images/quitar.png" alt="quitar"
+                                    width="20px"></button>
+                            <button type="button" class="btn btn-danger" (click)="eliminarArticuloAlmacen(row)"><img
+                                    src="assets/images/eliminar.png" alt="borrar" width="20px"></button>
                         </td>
                     </ng-container>
 
@@ -127,22 +139,38 @@
             <h2 class="text-center mb-4">
                 Edición del Almacén "{{ almacenEditar?.nombre }}"
             </h2>
-            <form (ngSubmit)="onSubmitEditar()">
+            <form #editarForm="ngForm" (ngSubmit)="onSubmitEditar()">
                 <div class="mb-3">
                     <label for="nombre" class="form-label">Nombre</label>
-                    <input type="text" class="form-control" id="nombre" name="nombre" [(ngModel)]="almacenEditar!.nombre" required>
+                    <input type="text" class="form-control" id="nombre" name="nombre"
+                        [(ngModel)]="almacenEditar!.nombre" required minlength="3">
+                    <div *ngIf="editarForm.submitted && !editarForm.controls['nombre']?.valid"
+                        class="invalid-feedback d-block">
+                        Nombre es requerido y debe tener al menos 3 caracteres.
+                    </div>
                 </div>
                 <div class="mb-3">
                     <label for="direccion" class="form-label">Dirección</label>
-                    <input class="form-control" id="direccion" name="direccion" [(ngModel)]="almacenEditar!.direccion">
+                    <input class="form-control" id="direccion" name="direccion" [(ngModel)]="almacenEditar!.direccion"
+                        minlength="5">
+                    <div *ngIf="editarForm.submitted && !editarForm.controls['direccion']?.valid"
+                        class="invalid-feedback d-block">
+                        Dirección debe tener al menos 5 caracteres.
+                    </div>
                 </div>
                 <div class="mb-3">
                     <label for="telefono" class="form-label">Teléfono</label>
-                    <input type="text" class="form-control" id="telefono" name="telefono" [(ngModel)]="almacenEditar!.telefono" required>
+                    <input type="text" class="form-control" id="telefono" name="telefono"
+                        [(ngModel)]="almacenEditar!.telefono" required pattern="^\d{10}$">
+                    <div *ngIf="editarForm.submitted && !editarForm.controls['telefono']?.valid"
+                        class="invalid-feedback d-block">
+                        Teléfono es requerido y debe tener 10 dígitos.
+                    </div>
                 </div>
                 <div class="d-flex justify-content-between">
                     <button type="submit" class="btn btn-primary w-100">Actualizar</button>
-                    <button type="button" class="btn btn-secondary w-100 ms-2" (click)="cancelarEdicion()">Cancelar</button>
+                    <button type="button" class="btn btn-secondary w-100 ms-2"
+                        (click)="cancelarEdicion()">Cancelar</button>
                 </div>
             </form>
         </div>
@@ -151,22 +179,38 @@
             <h2 class="text-center mb-4">
                 Agregar Nuevo Almacén
             </h2>
-            <form (ngSubmit)="onSubmitAgregar()">
+            <form #agregarForm="ngForm" (ngSubmit)="onSubmitAgregar()">
                 <div class="mb-3">
                     <label for="nombre" class="form-label">Nombre</label>
-                    <input type="text" class="form-control" id="nombre" name="nombre" [(ngModel)]="almacenNuevo.nombre" required>
+                    <input type="text" class="form-control" id="nombre" name="nombre" [(ngModel)]="almacenNuevo.nombre"
+                        required minlength="3">
+                    <div *ngIf="agregarForm.submitted && !agregarForm.controls['nombre']?.valid"
+                        class="invalid-feedback d-block">
+                        Nombre es requerido y debe tener al menos 3 caracteres.
+                    </div>
                 </div>
                 <div class="mb-3">
                     <label for="direccion" class="form-label">Dirección</label>
-                    <input class="form-control" id="direccion" name="direccion" [(ngModel)]="almacenNuevo.direccion">
+                    <input class="form-control" id="direccion" name="direccion" [(ngModel)]="almacenNuevo.direccion"
+                        minlength="5">
+                    <div *ngIf="agregarForm.submitted && !agregarForm.controls['direccion']?.valid"
+                        class="invalid-feedback d-block">
+                        Dirección debe tener al menos 5 caracteres.
+                    </div>
                 </div>
                 <div class="mb-3">
                     <label for="telefono" class="form-label">Teléfono</label>
-                    <input type="text" class="form-control" id="telefono" name="telefono" [(ngModel)]="almacenNuevo.telefono" required>
+                    <input type="text" class="form-control" id="telefono" name="telefono"
+                        [(ngModel)]="almacenNuevo.telefono" required pattern="^\d{10}$">
+                    <div *ngIf="agregarForm.submitted && !agregarForm.controls['telefono']?.valid"
+                        class="invalid-feedback d-block">
+                        Teléfono es requerido y debe tener 10 dígitos.
+                    </div>
                 </div>
                 <div class="d-flex justify-content-between">
                     <button type="submit" class="btn btn-primary w-100">Agregar</button>
-                    <button type="button" class="btn btn-secondary w-100 ms-2" (click)="almacenNuevo = null">Cancelar</button>
+                    <button type="button" class="btn btn-secondary w-100 ms-2"
+                        (click)="almacenNuevo = null">Cancelar</button>
                 </div>
             </form>
         </div>
@@ -178,20 +222,26 @@
             <form (ngSubmit)="onSubmitAgregarProductoAlmacen()">
                 <div class="mb-3">
                     <label for="articulos" class="form-label">Nombre</label>
-                    <input type="text" class="form-control mb-2" name="busquedaArticuloNuevo" (input)="filtrarArticulosNuevos($event)" placeholder="Buscar articulo">
+                    <input type="text" class="form-control mb-2" name="busquedaArticuloNuevo"
+                        (input)="filtrarArticulosNuevos($event)" placeholder="Buscar articulo">
                     <div>
-                        <select name="articulos" class="form-select" id="articulos" [(ngModel)]="insertarProductoAlmacen.producto">
-                            <option *ngFor="let articulo of listaArticulosGeneralFiltrada" [ngValue]="articulo">{{articulo.nombre}}</option>
+                        <select name="articulos" class="form-select" id="articulos"
+                            [(ngModel)]="insertarProductoAlmacen.producto">
+                            <option *ngFor="let articulo of listaArticulosGeneralFiltrada" [ngValue]="articulo">
+                                {{articulo.nombre}}</option>
                         </select>
 
                         <label for="cantidad" class="form-label mt-3">Cantidad</label>
-                        <input type="number" class="form-control" id="cantidad" name="cantidad" [(ngModel)]="insertarProductoAlmacen.cantidad" required>
+                        <input type="number" class="form-control" id="cantidad" name="cantidad"
+                            [(ngModel)]="insertarProductoAlmacen.cantidad" required>
                     </div>
                     <div>
                         <div *ngFor="let articulo of productosNuevos">
                             <div class="d-flex justify-content-between mt-3">
                                 <div>
-                                    <img *ngIf="articulo.producto.imagen; else noImg" [src]="'data:' + articulo.producto.mimeTypes + ';base64,' + articulo.producto.imagen" width="100">
+                                    <img *ngIf="articulo.producto.imagen; else noImg"
+                                        [src]="'data:' + articulo.producto.mimeTypes + ';base64,' + articulo.producto.imagen"
+                                        width="100">
                                     <ng-template #noImg>
                                         <img src="assets/images/not-found.jpg" alt="No hay imagen" width="100">
                                     </ng-template>
@@ -207,11 +257,13 @@
                             </div>
                         </div>
                     </div>
-                    <button type="button" class="btn btn-primary w-100" (click)="agregarListaProductos(insertarProductoAlmacen)">Agregar</button>
+                    <button type="button" class="btn btn-primary w-100"
+                        (click)="agregarListaProductos(insertarProductoAlmacen)">Agregar</button>
                     <div class="d-flex justify-content-between">
-                    <button type="submit" class="btn btn-primary w-100">Subir</button>
-                    <button type="button" class="btn btn-secondary w-100 ms-2" (click)="insertarProductoAlmacen = null">Cancelar</button>
-                </div>
+                        <button type="submit" class="btn btn-primary w-100">Subir</button>
+                        <button type="button" class="btn btn-secondary w-100 ms-2"
+                            (click)="insertarProductoAlmacen = null && productosNuevos=[]">Cancelar</button>
+                    </div>
                 </div>
             </form>
         </div>

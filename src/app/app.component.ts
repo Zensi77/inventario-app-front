@@ -6,7 +6,6 @@ import { ProductoComponent } from './listar-producto/producto.component';
 import { HttpClientModule } from '@angular/common/http';
 import { fadeAnimation } from './animations';
 
-
 @Component({
   selector: 'app-root',
   standalone: true,

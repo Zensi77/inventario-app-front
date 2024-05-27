@@ -31,7 +31,10 @@ export class ProductoService {
   }
 
   actualizarProducto(producto: Producto): Observable<Producto> {
-    return this.clientHttp.put<Producto>(`${this.URL}/${producto.id_producto}`, producto);
+    return this.clientHttp.put<Producto>(
+      `${this.URL}/${producto.id_producto}`,
+      producto
+    );
   }
 }
 
@@ -39,7 +42,7 @@ export class PaginationService {
   private pageSize = 10;
   private currentPage = 0;
 
-  constructor() { }
+  constructor() {}
 
   getPageSize(): number {
     return this.pageSize;
@@ -57,4 +60,3 @@ export class PaginationService {
     this.currentPage = page;
   }
 }
-

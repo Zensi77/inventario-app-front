@@ -9,11 +9,11 @@ import { RegistrarFabricanteComponent } from './registrar-fabricante/registrar-f
 
 export const routes: Routes = [
   { path: 'productos', component: ProductoComponent }, // Ruta para el componente Producto
-  { path: 'registrar-producto', component: RegistrarProductoComponent, },
+  { path: 'registrar-producto', component: RegistrarProductoComponent },
   { path: 'editar-producto/:id', component: EditarComponent },
   { path: 'fabricantes', component: FabricanteComponent }, // Ruta para el componente Proovedores
   { path: 'editar-fabricante/:id', component: EditarFabricanteComponent },
-  { path: 'registrar-fabricante', component: RegistrarFabricanteComponent},
-  { path: 'almacenes', component: AlmacenesComponent}, // Ruta para el componente Almacenes
+  { path: 'registrar-fabricante', component: RegistrarFabricanteComponent },
+  { path: 'almacenes', component: AlmacenesComponent }, // Ruta para el componente Almacenes
   { path: '', redirectTo: 'almacenes', pathMatch: 'full' }, // Ruta sin especificar
 ];

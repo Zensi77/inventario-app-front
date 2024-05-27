@@ -5,7 +5,6 @@ import { Router } from '@angular/router'; //Sirve para redirigir a otra ruta
 import { FormsModule } from '@angular/forms'; // Se importa FormsModule para poder usar ngModel
 import { FabricanteService } from '../fabricante.service';
 import { CommonModule } from '@angular/common';
-import { ToastrService } from 'ngx-toastr'; // Servicio para mostrar notificaciones
 import { ToastrModule } from 'ngx-toastr';
 
 @Component({
@@ -27,7 +26,7 @@ export class RegistrarProductoComponent {
   constructor(
     private productoService: ProductoService,
     private fabricanteService: FabricanteService,
-    private enrutador: Router,
+    private enrutador: Router
   ) {}
 
   ngOnInit() {

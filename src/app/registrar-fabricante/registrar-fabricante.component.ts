@@ -10,17 +10,21 @@ import { Router } from '@angular/router'; // Import the 'Router' class from the 
   standalone: true,
   imports: [FormsModule, CommonModule],
   templateUrl: './registrar-fabricante.component.html',
-  styleUrl: './registrar-fabricante.component.css'
+  styleUrl: './registrar-fabricante.component.css',
 })
 export class RegistrarFabricanteComponent {
   fabricante: Fabricante = new Fabricante();
-  constructor(private fabricanteService: FabricanteService, private router: Router) { }
-  
+  constructor(
+    private fabricanteService: FabricanteService,
+    private router: Router
+  ) {}
+
   onSubmit() {
-    this.fabricanteService.registrarFabricante(this.fabricante).subscribe((response) => {
-      console.log(response);
-    }
-    );
+    this.fabricanteService
+      .registrarFabricante(this.fabricante)
+      .subscribe((response) => {
+        console.log(response);
+      });
     this.router.navigate(['/fabricantes']);
   }
 }

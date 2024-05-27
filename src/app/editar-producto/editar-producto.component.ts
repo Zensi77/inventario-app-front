@@ -7,7 +7,6 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { forkJoin } from 'rxjs';
 
-
 @Component({
   selector: 'app-editar',
   standalone: true,
@@ -26,7 +25,7 @@ export class EditarComponent implements OnInit {
     private productoService: ProductoService,
     private route: ActivatedRoute,
     private router: Router,
-    private fabricanteService: FabricanteService,
+    private fabricanteService: FabricanteService
   ) {}
 
   ngOnInit() {
@@ -41,7 +40,6 @@ export class EditarComponent implements OnInit {
       this.fabricantes = fabricantes;
       this.fabricantesFiltrados = fabricantes;
     });
-
   }
 
   onSubmit() {

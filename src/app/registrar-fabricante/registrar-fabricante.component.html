@@ -26,7 +26,7 @@
             </div>
         </div>
         <div class="d-flex justify-content-between">
-            <button type="submit" class="btn btn-primary w-45" >Registrar</button>
+            <button type="submit" class="btn btn-primary w-45" [disabled]="!fabricanteForm.valid">Registrar</button>
             <button type="reset" class="btn btn-warning w-45">Borrar</button>
         </div>
         <button routerLink="/fabricantes" class="btn btn-secondary mt-3 w-100">Volver</button>
